@@ -34,6 +34,15 @@ class cell:
     def setWeight(self, grams):
         self.weight = grams
 
+    def getCellName(self):
+        return self.cellName
+    
+    def getInitialPotential(self):
+        return self.intitialPotential
+    
+    def getFinalPotential(self):
+        return self.finalPotential
+
     def findEnergyDensity(self):
         energyDensity = self.capacity/self.weight
         return energyDensity
