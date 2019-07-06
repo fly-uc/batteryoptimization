@@ -1,12 +1,12 @@
 
 class cell:
-    def __init__(self):
+    def __init__(self, ratedVoltage, maxAmperage):
         self.cellName = 'generic cell'
         self.intitialPotential = -1
         self.finalPotential = -1
-        self.ratedPotential =-1
+        self.ratedPotential = ratedVoltage
         self.capacity = -1
-        self.maxDischarge = -1
+        self.maxDischarge = maxAmperage
         self.internalResistance = -1
         self.weight = -1
     
@@ -39,10 +39,15 @@ class cell:
         return energyDensity
 
     def findPowerDensity(self):
-
+        #TODO: This will have to be done later, the discharge curve needs to be found with polynomial approximation
+        
 
     def findUsableCapacity(self):
-
+        #TODO: This will have to be done later, the discharge curve needs to be found with polynomial approximation
+        
 
     def findUsableEnergyDensity:
+        #TODO: This will have to be done later, the discharge curve needs to be found with polynomial approximation
+
     
+        
