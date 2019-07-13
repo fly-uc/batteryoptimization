@@ -42,6 +42,12 @@ class cell:
     
     def getFinalPotential(self):
         return self.finalPotential
+    
+    def getMaxDischarge(self):
+        return self.maxDischarge
+
+    def getCapacity(self):
+        return self.capacity
 
     def findEnergyDensity(self):
         energyDensity = self.capacity/self.weight
