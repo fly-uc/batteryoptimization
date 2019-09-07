@@ -13,8 +13,72 @@ class motor:
         self.operatingTemperature = temperature
         self.percentThrottle = percThrottle
 
+    #set functions
+    def setMotorName(self, name):
+        self.motorName = name
+
+    def setMotorType(self, motorType):
+        self.motorType = motorType
+
+    def setMaxContinuousCurrent(self, current):
+        self.maxContinuousCurrent = current
+    
+    def setVoltage(self, voltage):
+        self.voltage = voltage
+
+    def setTorque(self, torque):
+        self.torque = torque
+    
+    def setMotorWeight(self, weight):
+        self.motorWeight = weight
+    
+    def setRPM(self, RPM):
+        self.rpm = RPM
+
+    def setInternalResistance(self, iResistance):
+        self.internalResistance = iResistance
+    
+    def setOperatingTemperature(self, temperature):
+        self.operatingTemperature = temperature
+    
+    def setPercentThrottle(self, percThrottle):
+        self.percentThrottle = percThrottle
+
+    #corresponding get functions
+    def getMotorName(self):
+        return self.motorName
+
+    def getMotorType(self):
+        return self.motorType
+
+    def getMaxContinuousCurrent(self):
+        return self.maxContinuousCurrent
+    
+    def getVoltage(self):
+        return self.voltage
+
+    def getTorque(self):
+        return self.torque
+    
+    def getMotorWeight(self):
+        return self.motorWeight
+    
+    def getRPM(self):
+        return self.rpm
+
+    def getInternalResistance(self):
+        return self.internalResistance
+    
+    def getOperatingTemperature(self):
+        return self.operatingTemperature
+    
+    def getPercentThrottle(self):
+        return self.percentThrottle
+
+    #TODO: write member functions to connect attributes
+
 def main():
-    motor2 = motor("test", "DC", 1, 2, 3, 4, 5, 6, 7, 8)
+    #TODO: code here
 
 if __name__ == "__main__":
     main()
