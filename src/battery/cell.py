@@ -1,15 +1,40 @@
 
 
-class cell:
+class cell(object):
+
+    #new cell
+    cellName = 'empty'
+    intitialPotential = -1
+    finalPotential = -1
+    ratedPotential = -1
+    capacity = -1
+    maxDischarge = -1
+    internalResistance = -1
+    remainingCapacity = -1 
+    weight = -1
+    usableCapacity = -1
+
     def __init__(self, ratedVoltage, maxAmperage):
-        self.cellName = 'generic cell'
+        self.cellName = 'empty'
         self.intitialPotential = -1
         self.finalPotential = -1
-        self.ratedPotential = ratedVoltage
+        self.ratedPotential = -1
         self.capacity = -1
-        self.maxDischarge = maxAmperage
+        self.maxDischarge = -1
         self.internalResistance = -1
+        self.remainingCapacity = -1 
         self.weight = -1
+
+    def __init__(self,cellName,ratedVoltage,capacity,peakCurrent,startingVoltage,endingVoltage,resistance,weight,remainingCapacity):
+        self.cellName = cellName
+        self.ratedPotential = ratedVoltage
+        self.capacity = capacity
+        self.maxDischarge = peakCurrent
+        self.intitialPotential = startingVoltage
+        self.finalPotential = endingVoltage
+        self.internalResistance = resistance
+        self.weight = weight
+        self.remainingCapacity = remainingCapacity
    
     def setCellName(self, name):
         self.cellName = name
@@ -24,7 +49,7 @@ class cell:
         self.ratedPotential = volts
    
     def setCapacity(self, ampHours):
-        self.setCapacity = ampHours
+        self.capacity = ampHours
    
     def setMaxDischarge(self, amps):
         self.maxDischarge = amps
@@ -56,11 +81,14 @@ class cell:
 
     def findPowerDensity(self):
         #TODO: This will have to be done later, the discharge curve needs to be found with polynomial approximation
-       
+        return 0
 
     def findUsableCapacity(self):
+        self.usableCapacity = self.capacity - self.remainingCapacity
+    
+    def findUsableEnergyDensity(self):
         #TODO: This will have to be done later, the discharge curve needs to be found with polynomial approximation
-       
+        return 0
 
-    def findUsableEnergyDensity:
-        #TODO: This will have to be done later, the discharge curve needs to be found with polynomial approximation
+    def toString(self):
+        return (self.cellName + ', ' + self.ratedPotential + ', ' + self.capacity)
