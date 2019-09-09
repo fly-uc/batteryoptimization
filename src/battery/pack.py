@@ -9,7 +9,7 @@ class pack(object):
     cellsInSeries = 0
     energyRequired = 0
     voltageRequired = 0
-    powerRequired = 0
+    powerRequired = [[]]
     additionalCapacity = 30
     totalCells = 0
     weightInKilograms = 0
@@ -21,7 +21,8 @@ class pack(object):
         self.cellsInSeries = 0
         self.energyRequired = 0
         self.voltageRequired = 0
-        self.powerRequired = 0
+        self.currentRequired = 0
+        self.peakCurrentRequired= 0
         self.additionalCapacity = 30
         self.cell = cell(0,0)
 
@@ -31,16 +32,18 @@ class pack(object):
     def setVoltageRequired(self, voltage):
         self.voltageRequired = voltage
 
-    def setPowerRequired(self,power):
-        self.powerRequired = power
+    def setPowerRequired(self,powerInKW):
+        #self.powerRequired = power
+        self.powerRequired.append([])
         
+    def powerRequiredFromCSV(self,path):
+
     #rough calculation from earlier
     def findBasicPackConfig(self,cell):
         self.cellsInSeries = self.voltageReqired/self.cell.getVoltage()
         self.cellsForCapacity = (self.energyRequired/((self.cell.getCapacity()-.7)))*1.3 
         self.cellsForPower  = self.powerRequired/self.cell.getMaxDischarge()
     
-
     def loadCellInfo(self,path):
         with open('cellList.txt') as csvFile:
             csvReader = csv.reader(csvFile, delimiter=';')
@@ -58,21 +61,23 @@ class pack(object):
                     lineCount += 1
                 
     def findCellsRequiredForPower(self, cell):
-        
+        self.cellsInParallel = powerRequired/cell.getMaxDischarge()
 
     def findCellsRequiredForVoltage(self, cell):
+        self.cellsInSeries = voltageReqired/cell.getVoltage()
 
     def findTotalCells(self):
         self.totalCells = self.cellsInParallel * self.cellsInSeries
 
     def findWeight(self):
-        self.weightInKilograms = self.totalCells
-
+        self.weightInKilograms = self.totalCells * self.cell.getWeight
     def findThermalLosses(self):
-
-
+    
     def optimizePack(self):
         #Optimize pack for weight
+        optimalCell = cell()
+        cellIndex = 0
+
     
 
     

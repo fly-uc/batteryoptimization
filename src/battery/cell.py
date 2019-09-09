@@ -62,6 +62,9 @@ class cell(object):
 
     def getCellName(self):
         return self.cellName
+
+    def getWeight(self):
+        return self.weight
    
     def getInitialPotential(self):
         return self.intitialPotential
@@ -78,6 +81,10 @@ class cell(object):
     def findEnergyDensity(self):
         energyDensity = self.capacity/self.weight
         return energyDensity
+
+    def findThermalLoss(self,I):
+        power = (I^2)*self.internalResistance
+        return power
 
     def findPowerDensity(self):
         #TODO: This will have to be done later, the discharge curve needs to be found with polynomial approximation
