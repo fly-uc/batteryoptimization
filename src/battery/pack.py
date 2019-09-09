@@ -37,7 +37,15 @@ class pack(object):
         self.powerRequired.append([])
         
     def powerRequiredFromCSV(self,path):
-
+        with open(path) as csvFile:
+            csvReader = csv.reader(csvFile,delimiter = ';')
+            lineCount =  0
+            for row in csvReader:
+                if lineCount == 0:
+                    lineCount += 1
+                else:
+                    linecount += 1
+                    
     #rough calculation from earlier
     def findBasicPackConfig(self,cell):
         self.cellsInSeries = self.voltageReqired/self.cell.getVoltage()
@@ -70,13 +78,14 @@ class pack(object):
         self.totalCells = self.cellsInParallel * self.cellsInSeries
 
     def findWeight(self):
-        self.weightInKilograms = self.totalCells * self.cell.getWeight
+        self.weightInKilograms = (self.totalCells * self.cell.getWeight)/1000
     def findThermalLosses(self):
     
     def optimizePack(self):
         #Optimize pack for weight
         optimalCell = cell()
         cellIndex = 0
+
 
     
 
