@@ -44,11 +44,13 @@ class pack(object):
                 if lineCount == 0:
                     lineCount += 1
                 else:
+                    #in this file, power is stored in the first column, and duration in second column
                     linecount += 1
+                    self.powerRequired.append((row[0],row[1]))
                     
     #rough calculation from earlier
     def findBasicPackConfig(self,cell):
-        self.cellsInSeries = self.voltageReqired/self.cell.getVoltage()
+        self.cellsInSeries = self.voltageRequired/self.cell.getVoltage()
         self.cellsForCapacity = (self.energyRequired/((self.cell.getCapacity()-.7)))*1.3 
         self.cellsForPower  = self.powerRequired/self.cell.getMaxDischarge()
     
@@ -64,29 +66,26 @@ class pack(object):
                 else:
                     #line 2 and after
                     newCell = cell(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
-                    cellList.append(newCell)
+                    self.cellList.append(newCell)
                     print (newCell.toString())
                     lineCount += 1
-                
+
     def findCellsRequiredForPower(self, cell):
-        self.cellsInParallel = powerRequired/cell.getMaxDischarge()
+        self.cellsInParallel = self.powerRequired/cell.getMaxDischarge()
 
     def findCellsRequiredForVoltage(self, cell):
-        self.cellsInSeries = voltageReqired/cell.getVoltage()
+        self.cellsInSeries = self.voltageRequired/cell.getVoltage()
 
     def findTotalCells(self):
         self.totalCells = self.cellsInParallel * self.cellsInSeries
 
     def findWeight(self):
         self.weightInKilograms = (self.totalCells * self.cell.getWeight)/1000
+
     def findThermalLosses(self):
-    
+        cellResistance = self.cell.getInternalResistance()
+
     def optimizePack(self):
         #Optimize pack for weight
         optimalCell = cell()
         cellIndex = 0
-
-
-    
-
-    

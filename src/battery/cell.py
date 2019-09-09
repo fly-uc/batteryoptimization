@@ -14,16 +14,6 @@ class cell(object):
     weight = -1
     usableCapacity = -1
 
-    def __init__(self, ratedVoltage, maxAmperage):
-        self.cellName = 'empty'
-        self.intitialPotential = -1
-        self.finalPotential = -1
-        self.ratedPotential = -1
-        self.capacity = -1
-        self.maxDischarge = -1
-        self.internalResistance = -1
-        self.remainingCapacity = -1 
-        self.weight = -1
 
     def __init__(self,cellName,ratedVoltage,capacity,peakCurrent,startingVoltage,endingVoltage,resistance,weight,remainingCapacity):
         self.cellName = cellName
@@ -35,7 +25,19 @@ class cell(object):
         self.internalResistance = resistance
         self.weight = weight
         self.remainingCapacity = remainingCapacity
-   
+
+    @classmethod
+    def emptyCell(self, ratedVoltage, maxAmperage):
+        self.cellName = 'empty'
+        self.intitialPotential = -1
+        self.finalPotential = -1
+        self.ratedPotential = -1
+        self.capacity = -1
+        self.maxDischarge = -1
+        self.internalResistance = -1
+        self.remainingCapacity = -1 
+        self.weight = -1
+
     def setCellName(self, name):
         self.cellName = name
 
@@ -78,11 +80,14 @@ class cell(object):
     def getCapacity(self):
         return self.capacity
 
+    def getInternalResistance(self):
+        return self.internalResistance
+
     def findEnergyDensity(self):
         energyDensity = self.capacity/self.weight
         return energyDensity
 
-    def findThermalLoss(self,I):
+    def findPowerThermalLoss(self,I):
         power = (I^2)*self.internalResistance
         return power
 
