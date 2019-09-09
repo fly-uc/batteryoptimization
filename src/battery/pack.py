@@ -84,6 +84,12 @@ class pack(object):
 
     def findThermalLosses(self):
         cellResistance = self.cell.getInternalResistance()
+        parallelResistance = (self.cellsInParallel*(1/cellResistance))^-1
+        overallResistance = self.cellsInSeries * parallelResistance
+        energyLost = 0.0
+        for element in self.energyRequired:
+            energyLost += ((self.energyRequired[element][0]*self.energyRequired[element][1])*overallResistance^2)
+        return energyLost
 
     def optimizePack(self):
         #Optimize pack for weight
