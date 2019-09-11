@@ -1,5 +1,5 @@
 
-class motor:
+class motor(object):
     def __init__(self, name, motorType, current, voltage, torque, weight, RPM, iResistance, temperature, percThrottle):
         #max continuous currenet, voltage, torque, weight, rpm, internal resistance, operating temp, % throttle
         self.motorName = name
@@ -76,9 +76,3 @@ class motor:
         return self.percentThrottle
 
     #TODO: write member functions to connect attributes
-
-def main():
-    #TODO: code here
-
-if __name__ == "__main__":
-    main()

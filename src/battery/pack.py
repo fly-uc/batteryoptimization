@@ -53,22 +53,6 @@ class pack(object):
         self.cellsInSeries = self.voltageRequired/self.cell.getVoltage()
         self.cellsForCapacity = (self.energyRequired/((self.cell.getCapacity()-.7)))*1.3 
         self.cellsForPower  = self.powerRequired/self.cell.getMaxDischarge()
-    
-    def loadCellInfo(self,path):
-        with open('cellList.txt') as csvFile:
-            csvReader = csv.reader(csvFile, delimiter=';')
-            lineCount = 0
-            for row in csvReader:
-                if lineCount == 0:
-                    #First line
-                    print ('Cell Portfolio')
-                    lineCount += 1
-                else:
-                    #line 2 and after
-                    newCell = cell(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
-                    self.cellList.append(newCell)
-                    print (newCell.toString())
-                    lineCount += 1
 
     def findCellsRequiredForPower(self, cell):
         self.cellsInParallel = self.powerRequired/cell.getMaxDischarge()
