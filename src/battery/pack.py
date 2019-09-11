@@ -48,12 +48,13 @@ class pack(object):
                     linecount += 1
                     self.powerRequired.append((row[0],row[1]))
                     
-    #rough calculation from earlier
+    #Rough estimate, shouldn't use
     def findBasicPackConfig(self,cell):
         self.cellsInSeries = self.voltageRequired/self.cell.getVoltage()
         self.cellsForCapacity = (self.energyRequired/((self.cell.getCapacity()-.7)))*1.3 
         self.cellsForPower  = self.powerRequired/self.cell.getMaxDischarge()
     
+    #Gets cell info froma csv file
     def loadCellInfo(self,path):
         with open('cellList.txt') as csvFile:
             csvReader = csv.reader(csvFile, delimiter=';')
@@ -69,13 +70,19 @@ class pack(object):
                     self.cellList.append(newCell)
                     print (newCell.toString())
                     lineCount += 1
-
+    
+    #Gets a count of cells needed in parallel for power
     def findCellsRequiredForPower(self, cell):
         self.cellsInParallel = self.powerRequired/cell.getMaxDischarge()
 
+    #Gets the count of cells required for voltage
     def findCellsRequiredForVoltage(self, cell):
         self.cellsInSeries = self.voltageRequired/cell.getVoltage()
 
+    def findCellsRequiredForCapacity(self,cell):
+        
+
+    #finds total number of cells in a pack
     def findTotalCells(self):
         self.totalCells = self.cellsInParallel * self.cellsInSeries
 
