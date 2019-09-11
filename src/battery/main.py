@@ -7,7 +7,9 @@ def loadCSVIntoArray(path, objList):
         csvReader = csv.reader(csvFile, delimiter=';')
         lineCount = 0
         for row in csvReader:
-            objList.append(cell(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7], row[8]))
+            if lineCount >= 1:
+                objList.append(cell(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7], row[8]))
+            lineCount += 1
 
 def main():
     cells = []
