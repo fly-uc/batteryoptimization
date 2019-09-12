@@ -26,6 +26,8 @@ class pack(object):
         self.additionalCapacity = 30
         self.cell = cell(0,0)
 
+
+
     def setEnergyRequired(self, energy):
         self.energyRequired = energy
     
