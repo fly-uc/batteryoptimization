@@ -47,6 +47,7 @@ class pack(object):
                     #in this file, power is stored in the first column, and duration in second column
                     linecount += 1
                     self.powerRequired.append((row[0],row[1]))
+                    self.energyRequired = self.energyRequired + ((row[0]*row[1])/(self.voltageRequired*1000))
                     
     #Rough estimate, shouldn't use
     def findBasicPackConfig(self,cell):
@@ -73,14 +74,14 @@ class pack(object):
     
     #Gets a count of cells needed in parallel for power
     def findCellsRequiredForPower(self, cell):
-        self.cellsInParallel = self.powerRequired/cell.getMaxDischarge()
+        return (self.powerRequired/cell.getMaxDischarge())
 
     #Gets the count of cells required for voltage
     def findCellsRequiredForVoltage(self, cell):
-        self.cellsInSeries = self.voltageRequired/cell.getVoltage()
+        return (self.voltageRequired/cell.getVoltage())
 
     def findCellsRequiredForCapacity(self,cell):
-        
+        return (self.energyRequired/cell.getCapacity())
 
     #finds total number of cells in a pack
     def findTotalCells(self):
