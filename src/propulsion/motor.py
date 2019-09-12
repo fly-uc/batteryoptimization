@@ -1,5 +1,5 @@
-
-class motor:
+import csv
+class motor(object):
     def __init__(self, name, motorType, current, voltage, torque, weight, RPM, iResistance, temperature, percThrottle):
         #max continuous currenet, voltage, torque, weight, rpm, internal resistance, operating temp, % throttle
         self.motorName = name
@@ -12,6 +12,21 @@ class motor:
         self.internalResistance = iResistance
         self.operatingTemperature = temperature
         self.percentThrottle = percThrottle
+
+    @classmethod
+    def emptyMotor(self):
+        #Sets all values to negative 1
+        self.motorName = 'empty'
+        self.motorType = -1
+        self.maxContinuousCurrent = -1
+        self.voltage = -1
+        self.torque = -1
+        self.motorWeight = -1
+        self.rpm = -1
+        self.internalResistance = -1
+        self.operatingTemperature = -1
+        self.percentThrottle = -1
+    
 
     #set functions
     def setMotorName(self, name):
@@ -77,8 +92,12 @@ class motor:
 
     #TODO: write member functions to connect attributes
 
-def main():
-    #TODO: code here
+motorList = []
+def getMotorObjects(path, motorList):
+        with open(path) as csvFile:
+            csvReader = csv.reader(csvFile, delimiter=';')
+            lineCount = 0
+            for row in csvReader:
+                motorList.append(motor(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
 
-if __name__ == "__main__":
-    main()
+getMotorObjects("C:/Users/Keerthi Sekar/Documents/GitHub/batteryoptimization/src/propulsion/motorTest.csv", motorList)

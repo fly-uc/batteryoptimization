@@ -37,6 +37,21 @@ class pack(object):
     def setPowerRequired(self,powerInKW):
         #self.powerRequired = power
         self.powerRequired.append([])
+    
+    def setAdditionalCapacity(self, percentage):
+        self.additionalCapacity = percentage
+
+    def setTotalCells(self, cellCount):
+        self.totalCells = cellCount
+
+    def setWeightInKilograms(self, weight):
+        self.weightInKilograms = weight
+
+    def setCell(self, newCell):
+        self.cell = newCell
+
+    def setCellList(self, newCell):
+        self.cellList 
         
     def powerRequiredFromCSV(self,path):
         with open(path) as csvFile:
@@ -49,13 +64,15 @@ class pack(object):
                     #in this file, power is stored in the first column, and duration in second column
                     linecount += 1
                     self.powerRequired.append((row[0],row[1]))
+                    self.energyRequired = self.energyRequired + ((row[0]*row[1])/(self.voltageRequired*1000))
                     
-    #rough calculation from earlier
+    #Rough estimate, shouldn't use
     def findBasicPackConfig(self,cell):
         self.cellsInSeries = self.voltageRequired/self.cell.getVoltage()
         self.cellsForCapacity = (self.energyRequired/((self.cell.getCapacity()-.7)))*1.3 
         self.cellsForPower  = self.powerRequired/self.cell.getMaxDischarge()
     
+    #Gets cell info froma csv file
     def loadCellInfo(self,path):
         with open('cellList.txt') as csvFile:
             csvReader = csv.reader(csvFile, delimiter=';')
@@ -71,13 +88,19 @@ class pack(object):
                     self.cellList.append(newCell)
                     print (newCell.toString())
                     lineCount += 1
-
+    
+    #Gets a count of cells needed in parallel for power
     def findCellsRequiredForPower(self, cell):
-        self.cellsInParallel = self.powerRequired/cell.getMaxDischarge()
+        return (self.powerRequired/cell.getMaxDischarge())
 
+    #Gets the count of cells required for voltage
     def findCellsRequiredForVoltage(self, cell):
-        self.cellsInSeries = self.voltageRequired/cell.getVoltage()
+        return (self.voltageRequired/cell.getVoltage())
 
+    def findCellsRequiredForCapacity(self,cell):
+        return (self.energyRequired/cell.getCapacity())
+
+    #finds total number of cells in a pack
     def findTotalCells(self):
         self.totalCells = self.cellsInParallel * self.cellsInSeries
 
