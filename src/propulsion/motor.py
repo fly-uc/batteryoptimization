@@ -13,6 +13,20 @@ class motor(object):
         self.operatingTemperature = temperature
         self.percentThrottle = percThrottle
 
+    @classmethod
+    def emptyMotor(self):
+        #Sets all values to negative 1
+        self.motorName = 'empty'
+        self.motorType = -1
+        self.maxContinuousCurrent = -1
+        self.voltage = -1
+        self.torque = -1
+        self.motorWeight = -1
+        self.rpm = -1
+        self.internalResistance = -1
+        self.operatingTemperature = -1
+        self.percentThrottle = -1
+    
 
     #set functions
     def setMotorName(self, name):

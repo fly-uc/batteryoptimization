@@ -35,6 +35,21 @@ class pack(object):
     def setPowerRequired(self,powerInKW):
         #self.powerRequired = power
         self.powerRequired.append([])
+    
+    def setAdditionalCapacity(self, percentage):
+        self.additionalCapacity = percentage
+
+    def setTotalCells(self, cellCount):
+        self.totalCells = cellCount
+
+    def setWeightInKilograms(self, weight):
+        self.weightInKilograms = weight
+
+    def setCell(self, newCell):
+        self.cell = newCell
+
+    def setCellList(self, newCell):
+        self.cellList 
         
     def powerRequiredFromCSV(self,path):
         with open(path) as csvFile:
