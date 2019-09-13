@@ -258,6 +258,11 @@ class pack(object):
             energyLost += ((self.energyRequired[element][0]*self.energyRequired[element][1])*overallResistance^2)
         return energyLost
 
+    def basicCalculations(self):
+        cellsForPower = findCellsRequiredForPower(self.cell)
+        cellsForCapacity = findCellsRequiredForCapacity(self.cell)
+        
+
     def optimizePack(self):
         #Optimize pack for weight
         optimalCell = cell()
@@ -265,3 +270,9 @@ class pack(object):
 
 
 #main
+motorCount = 8
+myMotor = motor('U11 TMotor','DC',57.3,48,4.33,.772,4583,0,0,100)
+myBatteryCell = cell('Panasonic-Sayno',3.7,3700,15,3.6,3.5,.02,63,400)
+myPack = pack()
+myPack.setAdditionalCapacity(20)
+myPack.setCell(myBatteryCell)
