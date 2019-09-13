@@ -9,13 +9,10 @@ class vehicle(object):
     def __init__(self,motorCount):
 
 
-
-
 #main:
-def main():
-    motorListPath = ''
-    cellListPath = ''
-    powerPath = ''
+motorListPath = ''
+cellListPath = ''
+powerPath = ''
 
-    
+
 
