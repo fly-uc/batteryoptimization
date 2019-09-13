@@ -48,9 +48,36 @@ class pack(object):
     def setCell(self, newCell):
         self.cell = newCell
 
-    def setCellList(self, newCell):
-        self.cellList 
-        
+    def addCellToList(self, newCell):
+        self.cellList.append(newCell)
+
+    def getEnergyRequired(self):
+        return self.energyRequired
+
+    def getVoltageRequired(self):
+        return self.voltageRequired
+    
+    def getPowerRequired(self):
+        return self.powerRequired
+
+    def getAdditionalCapacity(self):
+        return self.additionalCapacity
+
+    def getTotalCells (self):
+        return self.totalCells
+
+    def getWeight(self):
+        return  self.weightInKilograms
+
+    def getCell(self):
+        return self.cell
+
+    def getCellsInSeries(self):
+        return self.cellsInSeries
+
+    def getCellsInParallel(self):
+        return self.cellsInParallel
+
     def powerRequiredFromCSV(self,path):
         with open(path) as csvFile:
             csvReader = csv.reader(csvFile,delimiter = ';')
