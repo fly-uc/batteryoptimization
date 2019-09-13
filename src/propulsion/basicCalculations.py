@@ -15,6 +15,68 @@ class motor(object):
         self.operatingTemperature = temperature
         self.percentThrottle = percThrottle
 
+    def setMotorName(self, name):
+        self.motorName = name
+
+    def setMotorType(self, motorType):
+        self.motorType = motorType
+
+    def setMaxContinuousCurrent(self, current):
+        self.maxContinuousCurrent = current
+    
+    def setVoltage(self, voltage):
+        self.voltage = voltage
+
+    def setTorque(self, torque):
+        self.torque = torque
+    
+    def setMotorWeight(self, weight):
+        self.motorWeight = weight
+    
+    def setRPM(self, RPM):
+        self.rpm = RPM
+
+    def setInternalResistance(self, iResistance):
+        self.internalResistance = iResistance
+    
+    def setOperatingTemperature(self, temperature):
+        self.operatingTemperature = temperature
+    
+    def setPercentThrottle(self, percThrottle):
+        self.percentThrottle = percThrottle
+
+    #corresponding get functions
+    def getMotorName(self):
+        return self.motorName
+
+    def getMotorType(self):
+        return self.motorType
+
+    def getMaxContinuousCurrent(self):
+        return self.maxContinuousCurrent
+    
+    def getVoltage(self):
+        return self.voltage
+
+    def getTorque(self):
+        return self.torque
+    
+    def getMotorWeight(self):
+        return self.motorWeight
+    
+    def getRPM(self):
+        return self.rpm
+
+    def getInternalResistance(self):
+        return self.internalResistance
+    
+    def getOperatingTemperature(self):
+        return self.operatingTemperature
+    
+    def getPercentThrottle(self):
+        return self.percentThrottle
+
+
 class cell(object):
 
     #new cell
@@ -130,7 +192,7 @@ class pack(object):
     additionalCapacity = 30
     totalCells = 0
     weightInKilograms = 0
-    cell = cell(0,0)
+    
     cellList = []
 
     def __init__(self):
@@ -141,7 +203,7 @@ class pack(object):
         self.currentRequired = 0
         self.peakCurrentRequired= 0
         self.additionalCapacity = 30
-        self.cell = cell(0,0)
+        
 
     def setEnergyRequired(self, energy):
         self.energyRequired = energy
@@ -259,13 +321,14 @@ class pack(object):
         return energyLost
 
     def basicCalculations(self):
-        cellsForPower = findCellsRequiredForPower(self.cell)
-        cellsForCapacity = findCellsRequiredForCapacity(self.cell)
+        cellsForPower  = (self.powerRequired/self.cell.getMaxDischarge())
+
+        cellsForCapacity = (self.energyRequired/self.cell.getCapacity())
         
 
     def optimizePack(self):
         #Optimize pack for weight
-        optimalCell = cell()
+        #optimalCell = cell()
         cellIndex = 0
 
 
@@ -276,3 +339,5 @@ myBatteryCell = cell('Panasonic-Sayno',3.7,3700,15,3.6,3.5,.02,63,400)
 myPack = pack()
 myPack.setAdditionalCapacity(20)
 myPack.setCell(myBatteryCell)
+myPack.setEnergyRequired
+#myPack.setVoltageRequired(myM)
