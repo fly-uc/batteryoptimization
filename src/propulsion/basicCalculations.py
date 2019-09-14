@@ -76,6 +76,9 @@ class motor(object):
     def getPercentThrottle(self):
         return self.percentThrottle
 
+    def getCurrent(self):
+        return self.maxContinuousCurrent
+
 
 class cell(object):
 
@@ -190,7 +193,7 @@ class pack(object):
     voltageRequired = 0
     powerRequired = [[]]
     additionalCapacity = 30
-    totalCells = 0
+    totalCells = 0 
     weightInKilograms = 0
     
     cellList = []
@@ -321,10 +324,14 @@ class pack(object):
         return energyLost
 
     def basicCalculations(self):
-        cellsForPower  = (self.powerRequired/self.cell.getMaxDischarge())
+        self.cellsForPower  = (self.powerRequired/self.cell.getMaxDischarge())
+        self.cellsForCapacity = (self.energyRequired/self.cell.getCapacity())
+        self.cellsInSeries = (self.voltageRequired/self.cell.getInitialPotential)
+        cellResistance = self.cell.getInternalResistance()
 
-        cellsForCapacity = (self.energyRequired/self.cell.getCapacity())
-        
+        parallelResistance = (self.cellsInParallel*(1/cellResistance))^-1
+        overallResistance = self.cellsInSeries * parallelResistance
+        energyLost = (overallResistance^2) * self.maxContinuousCurrent * 1800
 
     def optimizePack(self):
         #Optimize pack for weight
@@ -340,4 +347,6 @@ myPack = pack()
 myPack.setAdditionalCapacity(20)
 myPack.setCell(myBatteryCell)
 myPack.setEnergyRequired
-#myPack.setVoltageRequired(myM)
+myPack.setVoltageRequired(myMotor.getVoltage())
+myPack.setPowerRequired((8*myMotor.getCurrent()))
+myPack.basicCalculations
