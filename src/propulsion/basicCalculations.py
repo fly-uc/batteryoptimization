@@ -277,7 +277,7 @@ class pack(object):
     def findBasicPackConfig(self,cell):
         self.cellsInSeries = self.voltageRequired/self.cell.getVoltage()
         self.cellsForCapacity = (self.energyRequired/((self.cell.getCapacity()-.7)))*1.3 
-        self.cellsForPower  = self.powerRequired/self.cell.getMaxDischarge()
+        self.cellsForPower  = self.peakCurrentRequired/self.cell.getMaxDischarge()
     
     #Gets cell info froma csv file
     def loadCellInfo(self,path):
@@ -318,20 +318,26 @@ class pack(object):
         cellResistance = self.cell.getInternalResistance()
         parallelResistance = (self.cellsInParallel*(1/cellResistance))^-1
         overallResistance = self.cellsInSeries * parallelResistance
-        energyLost = 0.0
-        for element in self.energyRequired:
-            energyLost += ((self.energyRequired[element][0]*self.energyRequired[element][1])*overallResistance^2)
-        return energyLost
+        energyLost = (overallResistance^2) * self.peakCurrentRequired * 1800
+        
 
     def basicCalculations(self):
-        self.cellsForPower  = (self.powerRequired/self.cell.getMaxDischarge())
-        self.cellsForCapacity = (self.energyRequired/self.cell.getCapacity())
-        self.cellsInSeries = (self.voltageRequired/self.cell.getInitialPotential)
-        cellResistance = self.cell.getInternalResistance()
+        #self.cellsForPower  = (self.powerRequired/self.cell.getMaxDischarge())
+        #self.cellsForCapacity = (self.energyRequired/self.cell.getCapacity())
+        #self.cellsInSeries = (self.voltageRequired/self.cell.getInitialPotential)
 
-        parallelResistance = (self.cellsInParallel*(1/cellResistance))^-1
-        overallResistance = self.cellsInSeries * parallelResistance
-        energyLost = (overallResistance^2) * self.maxContinuousCurrent * 1800
+        self.cellsForPower = (self.findCellsRequiredForPower(self.cell)
+        self.cellsForCapacity = (self.findCellsRequiredForCapacity(self.cell))
+        self.cellsInSeries = (self.findCellsRequiredForVoltage(self.cell))
+
+        if (self.cellsForPower < self.cellsForCapacity):
+            self.cellsInParallel = self.cellsForCapacity
+            print()
+        else:
+            self.cellsInParallel = self.cellsForPower
+
+
+
 
     def optimizePack(self):
         #Optimize pack for weight
@@ -349,4 +355,4 @@ myPack.setCell(myBatteryCell)
 myPack.setEnergyRequired
 myPack.setVoltageRequired(myMotor.getVoltage())
 myPack.setPowerRequired((8*myMotor.getCurrent()))
-myPack.basicCalculations
+myPack.basicCalculations()
