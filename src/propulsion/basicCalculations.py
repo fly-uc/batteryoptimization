@@ -235,7 +235,7 @@ class pack(object):
 
     def getEnergyRequired(self):  
         return self.energyRequired
-k 
+
     def getVoltageRequired(self):
         return self.voltageRequired
     
@@ -325,7 +325,7 @@ k
         return energyLost
         
     def basicCalculations(self):
-        self.cellsForPower = (self.findCellsRequiredForPower(self.cell)
+        self.cellsForPower = (self.findCellsRequiredForPower(self.cell))
         self.cellsForCapacity = (self.findCellsRequiredForCapacity(self.cell))
         self.cellsInSeries = (self.findCellsRequiredForVoltage(self.cell))
 
