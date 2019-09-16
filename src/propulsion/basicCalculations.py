@@ -233,15 +233,15 @@ class pack(object):
     def addCellToList(self, newCell):
         self.cellList.append(newCell)
 
-    def getEnergyRequired(self):
+    def getEnergyRequired(self):  
         return self.energyRequired
-
+k 
     def getVoltageRequired(self):
         return self.voltageRequired
     
     def getPowerRequired(self):
         return self.powerRequired
-
+ 
     def getAdditionalCapacity(self):
         return self.additionalCapacity
 
@@ -310,41 +310,39 @@ class pack(object):
     #finds total number of cells in a pack
     def findTotalCells(self):
         self.totalCells = self.cellsInParallel * self.cellsInSeries
+        return self.totalCells
 
     def findWeight(self):
         self.weightInKilograms = (self.totalCells * self.cell.getWeight)/1000
+        return self.weightInKilograms
 
     def findThermalLosses(self):
         cellResistance = self.cell.getInternalResistance()
         parallelResistance = (self.cellsInParallel*(1/cellResistance))^-1
         overallResistance = self.cellsInSeries * parallelResistance
-        energyLost = (overallResistance^2) * self.peakCurrentRequired * 1800
+        energyLost = (overallResistance^2) * self.peakCurrentRequired * 600
+        print('Energy lost: ',energyLost, ' Watts')
+        return energyLost
         
-
     def basicCalculations(self):
-        #self.cellsForPower  = (self.powerRequired/self.cell.getMaxDischarge())
-        #self.cellsForCapacity = (self.energyRequired/self.cell.getCapacity())
-        #self.cellsInSeries = (self.voltageRequired/self.cell.getInitialPotential)
-
         self.cellsForPower = (self.findCellsRequiredForPower(self.cell)
         self.cellsForCapacity = (self.findCellsRequiredForCapacity(self.cell))
         self.cellsInSeries = (self.findCellsRequiredForVoltage(self.cell))
 
         if (self.cellsForPower < self.cellsForCapacity):
             self.cellsInParallel = self.cellsForCapacity
-            print()
+            print('Cells in parallel: ')
+            print(self.cellsInParallel)
         else:
             self.cellsInParallel = self.cellsForPower
+            print('Cells in parallel: ')
+            print(self.cellsInParallel)
 
-
-
-
-    def optimizePack(self):
-        #Optimize pack for weight
-        #optimalCell = cell()
-        cellIndex = 0
-
-
+        energyLost = self.findThermalLosses()
+        additionalParallelCells = ((energyLost/self.getVoltage())/.1)/((self.cell.getCapacity)/1000)
+        print('Additional cells in parallel: ', additionalParallelCells)
+        self.cellsInParallel = self.cellsInParallel + additionalParallelCells
+        
 #main
 motorCount = 8
 myMotor = motor('U11 TMotor','DC',57.3,48,4.33,.772,4583,0,0,100)
@@ -356,3 +354,9 @@ myPack.setEnergyRequired
 myPack.setVoltageRequired(myMotor.getVoltage())
 myPack.setPowerRequired((8*myMotor.getCurrent()))
 myPack.basicCalculations()
+print('Configuration')
+print ('Series: ', myPack.getCellsInSeries())
+print ('Parallel: ', myPack.getCellsInParallel())
+print ('Total Cell Count: ', myPack.getTotalCells())
+print ('Total Pack Weight: ',myPack.getTotalWeight(), ' kg')
+
