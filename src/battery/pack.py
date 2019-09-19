@@ -16,7 +16,7 @@ class pack(object):
     cell = cell(0,0)
     cellList = []
 
-    def __init__(self):
+    def __init__(self):  
         self.cellsInParallel = 0
         self.cellsInSeries = 0
         self.energyRequired = 0

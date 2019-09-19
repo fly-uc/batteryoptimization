@@ -298,7 +298,11 @@ class pack(object):
     
     #Gets a count of cells needed in parallel for power
     def findCellsRequiredForPower(self, cell):
-        return (self.powerRequired/cell.getMaxDischarge())
+        peakPower = 0
+        for current in self.powerRequired:
+            if current > peakPower:
+                peakPower = current
+        return (peakPower/cell.getMaxDischarge())
 
     #Gets the count of cells required for voltage
     def findCellsRequiredForVoltage(self, cell):
@@ -339,7 +343,7 @@ class pack(object):
             print(self.cellsInParallel)
 
         energyLost = self.findThermalLosses()
-        additionalParallelCells = ((energyLost/self.getVoltage())/.1)/((self.cell.getCapacity)/1000)
+        additionalParallelCells = ((energyLost/self.getVoltageRequired())/.1)/((self.cell.getCapacity)/1000)
         print('Additional cells in parallel: ', additionalParallelCells)
         self.cellsInParallel = self.cellsInParallel + additionalParallelCells
         
@@ -358,5 +362,5 @@ print('Configuration')
 print ('Series: ', myPack.getCellsInSeries())
 print ('Parallel: ', myPack.getCellsInParallel())
 print ('Total Cell Count: ', myPack.getTotalCells())
-print ('Total Pack Weight: ',myPack.getTotalWeight(), ' kg')
+print ('Total Pack Weight: ',myPack.getWeight(), ' kg')
 
