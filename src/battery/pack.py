@@ -141,7 +141,10 @@ class pack(object):
             energyLost += ((self.energyRequired[element][0]*self.energyRequired[element][1])*overallResistance^2)
         return energyLost
 
+
     def optimizePack(self):
         #Optimize pack for weight
-        optimalCell = cell()
+        optimalCell = cellList
         cellIndex = 0
+
+
