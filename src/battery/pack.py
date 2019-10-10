@@ -1,7 +1,7 @@
 
 
 import csv
-import cell
+from battery.cell import cell
 
 class pack(object):
 
@@ -151,3 +151,13 @@ class pack(object):
         #Optimize pack for weight
         optimalCell = cell()
         cellIndex = 0
+        previousWeight = 0
+
+        #Psudocode 
+        for cell in self.cellList:
+            if previousWeight = 0:
+                if self.getWeight() < previousWeight:
+                    optimalCell = cell
+                    previousWeight = self.getWeight
+                    
+            
