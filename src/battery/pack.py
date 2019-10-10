@@ -115,16 +115,22 @@ class pack(object):
                     lineCount += 1
     
     #Gets a count of cells needed in parallel for power
-    def findCellsRequiredForPower(self, cell):
+    def findCellsForPower(self, cell):
         return (self.powerRequired/cell.getMaxDischarge())
 
     #Gets the count of cells required for voltage
-    def findCellsRequiredForVoltage(self, cell):
+    def findCellsForVoltage(self, cell):
         return (self.voltageRequired/cell.getVoltage())
 
-    def findCellsRequiredForCapacity(self,cell):
+    def findCellsForCapacity(self,cell):
         return (self.energyRequired/cell.getCapacity())
 
+    def findCellsInParallel(self, cell):
+        if self.findCellsForPower(cell) > self.findCellsForCapacity(cell):
+            self.cellsInParallel = self.findCellsForPower(cell)
+        else:
+            self.cellsInParallel = self.findCellsForCapacity(cell)
+    
     #finds total number of cells in a pack
     def findTotalCells(self):
         self.totalCells = self.cellsInParallel * self.cellsInSeries
