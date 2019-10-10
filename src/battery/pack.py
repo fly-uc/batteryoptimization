@@ -1,7 +1,7 @@
 
 
 import csv
-from battery.cell import cell
+from src.battery.cell import cell
 
 class pack(object):
 
@@ -159,5 +159,5 @@ class pack(object):
                 if self.getWeight() < previousWeight:
                     optimalCell = cell
                     previousWeight = self.getWeight
-                    
+
             
