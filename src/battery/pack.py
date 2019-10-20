@@ -147,14 +147,17 @@ class pack(object):
             energyLost += ((self.energyRequired[element][0]*self.energyRequired[element][1])*overallResistance^2)
         return energyLost
 
+    def findDimensions(self):
+
+
     def optimizePack(self):
         #Optimize pack for weight
         optimalCell = self.cell
-        cellIndex = 0
         previousWeight = 0
+        self.setWeightInKilograms(0)
 
-        #Psudocode 
-        for cell in self.cellList:
+        for potentialCell in self.cellList:
+            self.cell = potentialCell
             if previousWeight == 0:
                 if self.getWeight() < previousWeight:
                     optimalCell = cell
