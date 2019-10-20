@@ -27,7 +27,7 @@ class cell(object):
         self.remainingCapacity = remainingCapacity
 
     @classmethod
-    def emptyCell(self, ratedVoltage, maxAmperage):
+    def basicCell(self, ratedVoltage, maxAmperage):
         self.cellName = 'empty'
         self.intitialPotential = -1
         self.finalPotential = -1
@@ -37,6 +37,19 @@ class cell(object):
         self.internalResistance = -1
         self.remainingCapacity = -1 
         self.weight = -1
+
+    @classmethod
+    def emptyCell(self):
+        self.cellName = 'empty'
+        self.intitialPotential = -1
+        self.finalPotential = -1
+        self.ratedPotential = -1
+        self.capacity = -1
+        self.maxDischarge = -1
+        self.internalResistance = -1
+        self.remainingCapacity = -1 
+        self.weight = -1
+
 
     def setCellName(self, name):
         self.cellName = name

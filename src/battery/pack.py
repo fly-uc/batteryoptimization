@@ -13,7 +13,7 @@ class pack(object):
     additionalCapacity = 30
     totalCells = 0
     weightInKilograms = 0
-    cell = cell(0,0)
+    cell = cell.emptyCell()
     cellList = []
 
     def __init__(self):
@@ -24,7 +24,7 @@ class pack(object):
         self.currentRequired = 0
         self.peakCurrentRequired= 0
         self.additionalCapacity = 30
-        self.cell = cell(0,0)
+        self.cell = cell.emptyCell()
 
     def setEnergyRequired(self, energy):
         self.energyRequired = energy
@@ -149,13 +149,13 @@ class pack(object):
 
     def optimizePack(self):
         #Optimize pack for weight
-        optimalCell = cell()
+        optimalCell = self.cell
         cellIndex = 0
         previousWeight = 0
 
         #Psudocode 
         for cell in self.cellList:
-            if previousWeight = 0:
+            if previousWeight == 0:
                 if self.getWeight() < previousWeight:
                     optimalCell = cell
                     previousWeight = self.getWeight
