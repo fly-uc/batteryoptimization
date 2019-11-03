@@ -147,9 +147,12 @@ class pack(object):
             energyLost += ((self.energyRequired[element][0]*self.energyRequired[element][1])*overallResistance^2)
         return energyLost
 
-    def findDimensions(self):
-
-
+    def findDimensions(self,cell):
+        #this is where all calculations are done for each pack
+        self.findCellsInParallel(cell)
+        self.findCellsForVoltage(cell)
+        self.findThermalLosses()
+    
     def optimizePack(self):
         #Optimize pack for weight
         optimalCell = self.cell
