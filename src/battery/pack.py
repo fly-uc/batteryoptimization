@@ -13,7 +13,7 @@ class pack(object):
     additionalCapacity = 30
     totalCells = 0
     weightInKilograms = 0
-    cell = cell.emptyCell()
+    currentCell = cell.emptyCell()
     cellList = []
 
     def __init__(self):
@@ -24,7 +24,7 @@ class pack(object):
         self.currentRequired = 0
         self.peakCurrentRequired= 0
         self.additionalCapacity = 30
-        self.cell = cell.emptyCell()
+        self.currentCell = cell.emptyCell()
 
     def setEnergyRequired(self, energy):
         self.energyRequired = energy
@@ -46,7 +46,7 @@ class pack(object):
         self.weightInKilograms = weight
 
     def setCell(self, newCell):
-        self.cell = newCell
+        self.currentCell = newCell
 
     def addCellToList(self, newCell):
         self.cellList.append(newCell)
@@ -70,7 +70,7 @@ class pack(object):
         return  self.weightInKilograms
 
     def getCell(self):
-        return self.cell
+        return self.currentCell
 
     def getCellsInSeries(self):
         return self.cellsInSeries
@@ -93,9 +93,9 @@ class pack(object):
                     
     #Rough estimate, shouldn't use
     def findBasicPackConfig(self,cell):
-        self.cellsInSeries = self.voltageRequired/self.cell.getVoltage()
-        self.cellsForCapacity = (self.energyRequired/((self.cell.getCapacity()-.7)))*1.3 
-        self.cellsForPower  = self.powerRequired/self.cell.getMaxDischarge()
+        self.cellsInSeries = self.voltageRequired/self.currentCell.getVoltage()
+        self.cellsForCapacity = (self.energyRequired/((self.currentCell.getCapacity()-.7)))*1.3 
+        self.cellsForPower  = self.powerRequired/self.currentCell.getMaxDischarge()
     
     #Gets cell info froma csv file
     def loadCellInfo(self,path):
@@ -136,10 +136,10 @@ class pack(object):
         self.totalCells = self.cellsInParallel * self.cellsInSeries
 
     def findWeight(self):
-        self.weightInKilograms = (self.totalCells * self.cell.getWeight)/1000
+        self.weightInKilograms = (self.totalCells * self.currentCell.getWeight)/1000
 
     def findThermalLosses(self):
-        cellResistance = self.cell.getInternalResistance()
+        cellResistance = self.currentCell.getInternalResistance()
         parallelResistance = (self.cellsInParallel*(1/cellResistance))^-1
         overallResistance = self.cellsInSeries * parallelResistance
         energyLost = 0.0
@@ -155,12 +155,12 @@ class pack(object):
     
     def optimizePack(self):
         #Optimize pack for weight
-        optimalCell = self.cell
+        optimalCell = self.currentCell
         previousWeight = 0
         self.setWeightInKilograms(0)
 
         for potentialCell in self.cellList:
-            self.cell = potentialCell
+            self.currentCell = potentialCell
             if previousWeight == 0:
                 if self.getWeight() < previousWeight:
                     optimalCell = cell
