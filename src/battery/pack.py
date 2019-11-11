@@ -15,7 +15,8 @@ class pack(object):
     weightInKilograms = 0
     currentCell = cell.emptyCell()
     cellList = []
-
+    
+    #Default Constructor
     def __init__(self):
         self.cellsInParallel = 0
         self.cellsInSeries = 0
@@ -26,25 +27,32 @@ class pack(object):
         self.additionalCapacity = 30
         self.currentCell = cell.emptyCell()
 
+    #Set energy spec
     def setEnergyRequired(self, energy):
         self.energyRequired = energy
-    
+
+    #Sets voltage spec
     def setVoltageRequired(self, voltage):
         self.voltageRequired = voltage
 
+    #Sets power spec
     def setPowerRequired(self,powerInKW):
         #self.powerRequired = power
         self.powerRequired.append([])
     
+    #Sets capacity margin
     def setAdditionalCapacity(self, percentage):
         self.additionalCapacity = percentage
 
+    #Sets total cell count
     def setTotalCells(self, cellCount):
         self.totalCells = cellCount
 
+    #Sets weight battery pack weight
     def setWeightInKilograms(self, weight):
         self.weightInKilograms = weight
 
+    #Sets cell 
     def setCell(self, newCell):
         self.currentCell = newCell
 
@@ -100,7 +108,7 @@ class pack(object):
     #Gets cell info froma csv file
     def loadCellInfo(self,path):
         with open('cellList.txt') as csvFile:
-            csvReader = csv.reader(csvFile, delimiter=';')
+            csvReader = csv.reader(csvFile, delimiter=';') 
             lineCount = 0
             for row in csvReader:
                 if lineCount == 0:
