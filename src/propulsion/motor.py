@@ -91,13 +91,3 @@ class motor(object):
         return self.percentThrottle
 
     #TODO: write member functions to connect attributes
-
-motorList = []
-def getMotorObjects(path, motorList):
-        with open(path) as csvFile:
-            csvReader = csv.reader(csvFile, delimiter=';')
-            lineCount = 0
-            for row in csvReader:
-                motorList.append(motor(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
-
-getMotorObjects("C:/Users/Keerthi Sekar/Documents/GitHub/batteryoptimization/src/propulsion/motorTest.csv", motorList)
