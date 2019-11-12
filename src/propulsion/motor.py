@@ -1,4 +1,6 @@
 import csv
+
+FLAGS_ENABLED = 1 #1 for warning messages, 0 to disable warnings
 class motor(object):
     def __init__(self, name, motorType, current, voltage, torque, weight, RPM, iResistance, temperature, percThrottle):
         #max continuous currenet, voltage, torque, weight, rpm, internal resistance, operating temp, % throttle

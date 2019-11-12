@@ -1,5 +1,5 @@
 
-
+FLAGS_ENABLED = 1 #1 for warning messages, 0 to disable warnings
 class cell(object):
 
     #new cell
