@@ -11,6 +11,7 @@ class vehicle(object):
     self.structuralMass = 0
     self.payloadMass = 0
     self.totalWeight = 0
+    self.totalThrust = 0
 
     def __init__(self,motorCount,structuralMass, payloadMass):
         self.motorCount = motorCount
@@ -48,6 +49,15 @@ class vehicle(object):
         return self.totalWeight
 
     def findTotalWeight(self):
+
+        if(FLAGS_ENABLED == 1):
+            if(self.structuralMass <= 0):
+                print ('Warning: Invalid structural mass for vehicle')
+            if(self.payloadMass <= 0):
+                print ('Warning: Invalid payload mass for vehicle')
+            if(self.batteryPack.getWeight() <= 0):
+                print ('Warning: Battery pack weight is invalid')
+
         self.totalWeight = self.structuralMass + self.payloadMass + self.batteryPack.getWeight()
 
     def openMotorList(path, motorList):
