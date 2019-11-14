@@ -104,10 +104,8 @@ class pack(object):
                     linecount += 1
                     self.powerRequired.append((row[0],row[1]))
                     self.energyRequired = self.energyRequired + ((row[0]*row[1])/(self.voltageRequired*1000))
-                    
     #Rough estimate, shouldn't use
     def findBasicPackConfig(self,cell):
-
         if(FLAGS_ENABLED == 1):
             if(self.voltageRequired <= 0 ):
                 print('Error -- Function: findBasicPackConfig() -- member of class pack  -- Voltage required has to be greater than 0')
@@ -147,6 +145,12 @@ class pack(object):
     
     #Gets a count of cells needed in parallel for power
     def findCellsForPower(self, cell):
+        if(FLAGS_ENABLED == 1):
+            if(self.powerRequired <= 0):
+                print('Error -- Function findCellsForPower() -- member of class pack -- pack power required should be greater than 0')
+            if(cell.getMaxDischarge() <= 0):
+                print('Error -- Function findCellsForPower() -- member of cell pack -- cell max current dischange should be greater than 0')
+
         return (self.powerRequired/cell.getMaxDischarge())
 
     #Gets the count of cells required for voltage
