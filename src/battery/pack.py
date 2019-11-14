@@ -183,6 +183,11 @@ class pack(object):
     
     #finds total number of cells in a pack
     def findTotalCells(self):
+        if(FLAGS_ENABLED == 1):
+            if(self.cellsInParallel <= 0):
+                print('Error -- Function findTotalCells() -- member of class pack -- cells in parallel must be greater than 0')
+            if(self.cellsInSeries <= 0):
+                print('Error -- Function findTotalCells() -- member of class pack -- cells in series must be greater than 0')
         self.totalCells = self.cellsInParallel * self.cellsInSeries
 
     def findWeight(self):
