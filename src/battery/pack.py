@@ -58,19 +58,15 @@ class pack(object):
     def setCell(self, newCell):
         self.currentCell = newCell
 
-    #Adds newCell to the end of the cell list
     def addCellToList(self, newCell):
         self.cellList.append(newCell)
 
-    #Returns energy required in Watt Hours
     def getEnergyRequired(self):
         return self.energyRequired
 
-    #Returns voltage required in Volts
     def getVoltageRequired(self):
         return self.voltageRequired
     
-    #Returns power required in 
     def getPowerRequired(self):
         return self.powerRequired
 
@@ -78,9 +74,13 @@ class pack(object):
         return self.additionalCapacity
 
     def getTotalCells (self):
+        if(FLAGS_ENABLED ==1):
+            if(self.totalCells <= 0):
+                print('Function: getTotalCells in pack -  Warning: cell count is incorrect')
         return self.totalCells
 
     def getWeight(self):
+        if(FLAGS_ENABLED)
         return  self.weightInKilograms
 
     def getCell(self):
@@ -107,6 +107,23 @@ class pack(object):
                     
     #Rough estimate, shouldn't use
     def findBasicPackConfig(self,cell):
+
+        if(FLAGS_ENABLED == 1):
+            if(self.voltageRequired <= 0 ):
+                print('Error -- Function: findBasicPackConfig() -- member of class pack  -- Voltage required has to be greater than 0')
+            if(self.energyRequired <= 0):
+                print('Error --  Function: findBasicPackConfig() -- member of class pack -- Energy Required has to be greater than 0')
+            if(self.currentCell.getCapacity <= 0):
+                print('Error -- Function: findBasicPackConfig() -- member of class pack -- Cell capacity must be greater than 0')
+            if(self.powerRequired <= 0):   
+                print('Error: -- Function: findBasicPackConfig() -- member of class pack -- power Required must be greater than 0')
+            if(self.currentCell.getVoltage() <= 0):
+                print('Error: -- Function findBasicPackConfig() -- member of class pack -- current cell voltage should be greater than 0')
+            if(self.currentCell.getCapacity() <= 0):
+                print('Error -- Function findBasicPackConfig() -- member of class pack -- current cell capacity should be greater than 0')
+            if(self.currentCell.getMaxDischarge() <= 0):
+                print('Error -- Function findBasicPackConfig() -- member of class pack  -- current cell max current dischange should be greater than 0')
+
         self.cellsInSeries = self.voltageRequired/self.currentCell.getVoltage()
         self.cellsForCapacity = (self.energyRequired/((self.currentCell.getCapacity()-.7)))*1.3 
         self.cellsForPower  = self.powerRequired/self.currentCell.getMaxDischarge()
