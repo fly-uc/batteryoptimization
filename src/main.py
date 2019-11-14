@@ -127,7 +127,7 @@ class cell(object):
 
 
 class motor(object):
-    def __init__(self, name, motorType, current, voltage, torque, weight, RPM, iResistance, temperature, percThrottle):
+    def __init__(self, name, motorType, current, voltage, torque, weight, RPM, iResistance):
         #max continuous currenet, voltage, torque, weight, rpm, internal resistance, operating temp, % throttle
         self.motorName = name
         self.motorType = motorType
@@ -137,8 +137,8 @@ class motor(object):
         self.motorWeight = weight
         self.rpm = RPM
         self.internalResistance = iResistance
-        self.operatingTemperature = temperature
-        self.percentThrottle = percThrottle
+        self.operatingTemperature = 0
+        self.percentThrottle = 0
 
     @classmethod
     def emptyMotor(self):
@@ -314,17 +314,20 @@ class pack(object):
         return ((self.cellsInParallel * self.currentCell.getCapacity)/1000)
 
     def powerRequiredFromCSV(self,path):
+        '''
         with open(path) as csvFile:
-            csvReader = csv.reader(csvFile,delimiter = ';')
+            #csvReader = csv.reader(csvFile,delimiter = ';')
             lineCount =  0
-            for row in csvReader:
-                if lineCount == 0:
-                    lineCount += 1
-                else:
+            #for row in csvReader:
+                #if lineCount == 0:
+                   # lineCount += 1
+                #else:
                     #in this file, power is stored in the first column, and duration in second column
-                    linecount += 1
-                    self.powerRequired.append((row[0],row[1]))
-                    self.energyRequired = self.energyRequired + ((row[0]*row[1])/(self.voltageRequired*1000))
+                #    linecount += 1
+                 #   self.powerRequired.append((row[0],row[1]))
+                #    self.energyRequired = self.energyRequired + ((row[0]*row[1])/(self.voltageRequired*1000))
+
+        '''
     #Rough estimate, shouldn't use
     def findBasicPackConfig(self,cell):
         if(FLAGS_ENABLED == 1):
@@ -349,8 +352,9 @@ class pack(object):
     
     #Gets cell info froma csv file
     def loadCellInfo(self,path):
+        '''
         with open('cellList.txt') as csvFile:
-            csvReader = csv.reader(csvFile, delimiter=';') 
+            #csvReader = csv.reader(csvFile, delimiter=';') 
             lineCount = 0
             for row in csvReader:
                 if lineCount == 0:
@@ -363,6 +367,7 @@ class pack(object):
                     #self.cellList.append(newCell)
                     #print (newCell.toString())
                     lineCount += 1
+        '''
     
     #Gets a count of cells needed in parallel for power
     def findCellsForPower(self, cell):
@@ -475,9 +480,10 @@ class pack(object):
         self.findDimensions(self.currentCell)
         print('Optimal pack:')
         self.printPack()
+
 class vehicle(object):
     motorCount = -1
-    currentMotor  = motor()
+    #currentMotor  = motor()
     batteryPack = pack()
     motorList = []
     structuralMass = 0
@@ -539,6 +545,8 @@ class vehicle(object):
             #for row in csvReader:
                 #motorList.append(motor(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
 
-    def optimizeVehicle(self):
-        optimalMotor = self.currentMotor
-        previousWeight = 0
+
+#Main:
+
+
+
