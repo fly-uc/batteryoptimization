@@ -145,7 +145,7 @@ class pack(object):
                     lineCount += 1
                 else:
                     #line 2 and after
-                    newCell = cell(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
+                    #newCell = cell(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
                     self.cellList.append(newCell)
                     print (newCell.toString())
                     lineCount += 1
@@ -200,7 +200,7 @@ class pack(object):
                 print('Error -- Function findWeight() -- member of class pack -- total cells must be greater than 0')
             if(self.currentCell.getWeight() <= 0):
                 print('Error -- Function findWeight() -- member of class pack -- cell must have weight greater than 0')
-        self.weightInKilograms = (self.totalCells * self.currentCell.getWeight())/1000
+        self.weightInKilograms = ((self.totalCells * self.currentCell.getWeight())/1000)
 
     def findThermalLosses(self):
         
@@ -230,12 +230,16 @@ class pack(object):
         self.cellsInParallel = self.cellsInParallel + additionalCellsInParallel
 
     def printPack(self):
+        print (f'Pack energy(KWh):')
+        print(f'Pack voltage(V): ')
+        print (f'Pack max continous current')
         print(f'Cells in series: {self.cellsInSeries}')
         print(f'Cells in parallel: {self.cellsInParallel}')
         print(f'Total cells: {self.getTotalCells()}')
-        print(f'Total capacity: {self.getCapacity()}')
-        
-    
+        print(f'Total capacity(Ah): {self.getCapacity()}')
+        print(f'Weight: {self.getWeight()}')
+
+
     def optimizePack(self):
         #Optimize pack for weight
         optimalCell = self.currentCell
@@ -252,4 +256,4 @@ class pack(object):
         self.currentCell = optimalCell
         self.findDimensions(self.currentCell)
         self.printPack()
-
+    
