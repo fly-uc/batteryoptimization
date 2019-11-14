@@ -15,7 +15,6 @@
  - Pack max continous current
  - Cells in series
  - Cells in parallel
- - Total cells
  - Total capacity(Ah)
  - Weight(kg)
 
