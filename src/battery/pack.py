@@ -95,6 +95,10 @@ class pack(object):
     def getCellsInParallel(self):
         return self.cellsInParallel
 
+    #Gets capacity in Ah
+    def getCapacity(self):
+        return ((self.cellsInParallel * self.currentCell.getCapacity)/1000)
+
     def powerRequiredFromCSV(self,path):
         with open(path) as csvFile:
             csvReader = csv.reader(csvFile,delimiter = ';')
@@ -114,7 +118,7 @@ class pack(object):
                 print('Error -- Function: findBasicPackConfig() -- member of class pack  -- Voltage required has to be greater than 0')
             if(self.energyRequired <= 0):
                 print('Error --  Function: findBasicPackConfig() -- member of class pack -- Energy Required has to be greater than 0')
-            if(self.currentCell.getCapacity <= 0):
+            if(self.currentCell.getCapacity() <= 0):
                 print('Error -- Function: findBasicPackConfig() -- member of class pack -- Cell capacity must be greater than 0')
             if(self.powerRequired <= 0):   
                 print('Error: -- Function: findBasicPackConfig() -- member of class pack -- power Required must be greater than 0')
@@ -170,7 +174,7 @@ class pack(object):
         if(FLAGS_ENABLED == 1):
             if(self.energyRequired <= 0):
                 print('Error -- Function findCellsForCapacity() -- member of class pack -- pack energy required must be greater than 0')
-            if(cell.getCapacity <= 0):
+            if(cell.getCapacity() <= 0):
                 print('Error -- Funciton findCellsForCapacity() -- member of class pack -- cell capacity must be greater than 0')
 
         return (self.energyRequired/cell.getCapacity())
@@ -199,9 +203,19 @@ class pack(object):
         self.weightInKilograms = (self.totalCells * self.currentCell.getWeight())/1000
 
     def findThermalLosses(self):
+        
+        if(FLAGS_ENABLED == 1):
+            if(self.currentCell.getInternalResistance < 0):
+                print('Error -- Function findThermalLosses() -- member of class pack -- cell internal resistance unassigned')
+            if(self.cellsInParallel <= 0):
+                print('Error -- Function findThermalLosses() -- member of class pack -- cells in parallel must be greater than 0')
+            if(self.cellsInSeries):
+                print('Error -- Function findThermalLosses() -- member of class pack -- cells in series must be graeater than 0')
+
         cellResistance = self.currentCell.getInternalResistance()
         parallelResistance = (self.cellsInParallel*(1/cellResistance))^-1
         overallResistance = self.cellsInSeries * parallelResistance
+        
         energyLost = 0.0
         for element in self.energyRequired:
             energyLost += ((self.energyRequired[element][0]*self.energyRequired[element][1])*overallResistance^2)
@@ -211,7 +225,16 @@ class pack(object):
         #this is where all calculations are done for each pack
         self.findCellsInParallel(cell)
         self.findCellsForVoltage(cell)
-        self.findThermalLosses()
+        additionalCapacity = self.findThermalLosses()
+        additionalCellsInParallel = (((additionalCapacity / self.voltageRequired)/self.currentCell.getCapacity())/1000)
+        self.cellsInParallel = self.cellsInParallel + additionalCellsInParallel
+
+    def printPack(self):
+        print(f'Cells in series: {self.cellsInSeries}')
+        print(f'Cells in parallel: {self.cellsInParallel}')
+        print(f'Total cells: {self.getTotalCells()}')
+        print(f'Total capacity: {self.getCapacity()}')
+        
     
     def optimizePack(self):
         #Optimize pack for weight
@@ -221,9 +244,12 @@ class pack(object):
 
         for potentialCell in self.cellList:
             self.currentCell = potentialCell
-            if previousWeight == 0:
-                if self.getWeight() < previousWeight:
-                    optimalCell = cell
-                    previousWeight = self.getWeight
+            self.findDimensions(self.currentCell)
+            if self.getWeight() < previousWeight:
+                optimalCell = self.currentCell
+                previousWeight = self.getWeight
 
-            
+        self.currentCell = optimalCell
+        self.findDimensions(self.currentCell)
+        self.printPack()
+
