@@ -99,7 +99,7 @@ class cell(object):
     def findEnergyDensity(self):
         if(FLAGS_ENABLED == 1):
             if(self.capacity <= 0):
-                
+                print ('')
 
         energyDensity = self.capacity/self.weight
         return energyDensity

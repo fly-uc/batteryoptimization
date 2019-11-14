@@ -1,7 +1,7 @@
 
 
 import csv
-from src.battery.cell import cell
+import battery.cell
 
 
 FLAGS_ENABLED = 1 #1 for warning messages, 0 to disable warnings
