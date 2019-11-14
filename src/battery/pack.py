@@ -191,7 +191,12 @@ class pack(object):
         self.totalCells = self.cellsInParallel * self.cellsInSeries
 
     def findWeight(self):
-        self.weightInKilograms = (self.totalCells * self.currentCell.getWeight)/1000
+        if(FLAGS_ENABLED == 1):
+            if(self.totalCells <= 0):
+                print('Error -- Function findWeight() -- member of class pack -- total cells must be greater than 0')
+            if(self.currentCell.getWeight() <= 0):
+                print('Error -- Function findWeight() -- member of class pack -- cell must have weight greater than 0')
+        self.weightInKilograms = (self.totalCells * self.currentCell.getWeight())/1000
 
     def findThermalLosses(self):
         cellResistance = self.currentCell.getInternalResistance()
