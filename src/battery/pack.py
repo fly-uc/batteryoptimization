@@ -80,7 +80,10 @@ class pack(object):
         return self.totalCells
 
     def getWeight(self):
-        if(FLAGS_ENABLED)
+        if(FLAGS_ENABLED == 1):
+            if(self.weightInKilograms <= 0):
+                print('Error: ')
+
         return  self.weightInKilograms
 
     def getCell(self):
@@ -159,7 +162,7 @@ class pack(object):
             if(self.voltageRequired <= 0):
                 print('Error  -- Function findCellsForVoltage() -- member of class pack  -- pack voltage required must be greater than 0')
             if(cell.getVoltage() <= 0):
-                print('Error -- Function findCellsForVoltage() -- member of class pack -- cell voltage must be greater than 0'
+                print('Error -- Function findCellsForVoltage() -- member of class pack -- cell voltage must be greater than 0')
         
         return (self.voltageRequired/cell.getVoltage())
 

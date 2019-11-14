@@ -1,17 +1,18 @@
 import csv
-from src.propulsion import motor.py
-from src.battery import pack.py
+import src.propulsion.motor 
+import src.battery.cell
+import src.battery.pack
 
 FLAGS_ENABLED = 1 #1 for warning messages, 0 to disable warnings
 class vehicle(object):
     motorCount = -1
-    currentMotor = motor()
+    currentMotor  = motor()
     batteryPack = pack()
-    motorList[]
-    self.structuralMass = 0
-    self.payloadMass = 0
-    self.totalWeight = 0
-    self.totalThrust = 0
+    motorList = []
+    structuralMass = 0
+    payloadMass = 0
+    totalWeight = 0
+    totalThrust = 0
 
     def __init__(self,motorCount,structuralMass, payloadMass):
         self.motorCount = motorCount
@@ -21,7 +22,7 @@ class vehicle(object):
     def setMotorCount(self, numberOfMotors):
         self.motorCount = numberOfMotors
 
-    def setMotor(self,motor)
+    def setMotor(self,motor):
         self.currentMotor = motor
 
     def setStructuralMass(self, mass):
@@ -33,7 +34,7 @@ class vehicle(object):
     def setTotalWeight(self, mass):
         self.totalWeight = mass
 
-    def getMotorCount(self, self);
+    def getMotorCount(self):
         return self.motorCount
 
     def getMotor(self):
@@ -60,7 +61,7 @@ class vehicle(object):
 
         self.totalWeight = self.structuralMass + self.payloadMass + self.batteryPack.getWeight()
 
-    def openMotorList(path, motorList):
+    def openMotorList(self,path, motorList):
         with open(path) as csvFile:
             csvReader = csv.reader(csvFile, delimiter=';')
             lineCount = 0
