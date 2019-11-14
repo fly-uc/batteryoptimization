@@ -24,4 +24,4 @@
  2. Main function is at the very bottom of the file
  3. Inputs are at the top of main.py
  4. Contains 3 classes, motor, cell, and pack
- 5. You can disable warning flags, but I don't recommend it
+ 5. You can disable warning flags, but I don't recommend it, to disable, set FLAGS_ENABLED = 0
