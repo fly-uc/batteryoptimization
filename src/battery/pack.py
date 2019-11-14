@@ -146,8 +146,8 @@ class pack(object):
                 else:
                     #line 2 and after
                     #newCell = cell(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
-                    self.cellList.append(newCell)
-                    print (newCell.toString())
+                    #self.cellList.append(newCell)
+                    #print (newCell.toString())
                     lineCount += 1
     
     #Gets a count of cells needed in parallel for power
@@ -230,14 +230,16 @@ class pack(object):
         self.cellsInParallel = self.cellsInParallel + additionalCellsInParallel
 
     def printPack(self):
-        print (f'Pack energy(KWh):')
-        print(f'Pack voltage(V): ')
-        print (f'Pack max continous current')
+        #print (f'Pack energy(KWh):')
+        print(f'Pack voltage(V): {(self.getCellsInSeries()*self.currentCell.getVoltage())}')
+        print (f'Pack max continuous current(A): {(self.getCellsInParallel()*self.currentCell.getMaxDischarge()}')
+        print (f'Cell name: {self.currentCell.getCellName()}')
         print(f'Cells in series: {self.cellsInSeries}')
         print(f'Cells in parallel: {self.cellsInParallel}')
         print(f'Total cells: {self.getTotalCells()}')
         print(f'Total capacity(Ah): {self.getCapacity()}')
-        print(f'Weight: {self.getWeight()}')
+        print(f'Weight(Kg): {self.getWeight()}')
+        print(f'Thermal loss(Wh): {self.findThermalLosses()}')
 
 
     def optimizePack(self):
@@ -249,11 +251,14 @@ class pack(object):
         for potentialCell in self.cellList:
             self.currentCell = potentialCell
             self.findDimensions(self.currentCell)
+            self.printPack()
             if self.getWeight() < previousWeight:
                 optimalCell = self.currentCell
                 previousWeight = self.getWeight
+                print('New optimal pack!')
 
         self.currentCell = optimalCell
         self.findDimensions(self.currentCell)
+        print('Optimal pack:')
         self.printPack()
     

@@ -61,12 +61,12 @@ class vehicle(object):
 
         self.totalWeight = self.structuralMass + self.payloadMass + self.batteryPack.getWeight()
 
-    def openMotorList(self,path, motorList):
-        with open(path) as csvFile:
-            csvReader = csv.reader(csvFile, delimiter=';')
-            lineCount = 0
-            for row in csvReader:
-                motorList.append(motor(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
+    #def openMotorList(self,path, motorList):
+        #with open(path) as csvFile:
+            #csvReader = csv.reader(csvFile, delimiter=';')
+            #lineCount = 0
+            #for row in csvReader:
+                #motorList.append(motor(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
 
     def optimizeVehicle(self):
         optimalMotor = self.currentMotor
@@ -74,10 +74,7 @@ class vehicle(object):
         
 
 #main
-def main():
-    motorListPath = ''
-    cellListPath = ''
-    powerPath = ''
+
 
     
 
