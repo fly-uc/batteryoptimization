@@ -232,7 +232,7 @@ class pack(object):
     def printPack(self):
         #print (f'Pack energy(KWh):')
         print(f'Pack voltage(V): {(self.getCellsInSeries()*self.currentCell.getVoltage())}')
-        print (f'Pack max continuous current(A): {(self.getCellsInParallel()*self.currentCell.getMaxDischarge()}')
+        print (f'Pack max continuous current(A): {(self.getCellsInParallel()*self.currentCell.getMaxDischarge())}')
         print (f'Cell name: {self.currentCell.getCellName()}')
         print(f'Cells in series: {self.cellsInSeries}')
         print(f'Cells in parallel: {self.cellsInParallel}')
