@@ -155,9 +155,21 @@ class pack(object):
 
     #Gets the count of cells required for voltage
     def findCellsForVoltage(self, cell):
+        if(FLAGS_ENABLED == 1):
+            if(self.voltageRequired <= 0):
+                print('Error  -- Function findCellsForVoltage() -- member of class pack  -- pack voltage required must be greater than 0')
+            if(cell.getVoltage() <= 0):
+                print('Error -- Function findCellsForVoltage() -- member of class pack -- cell voltage must be greater than 0'
+        
         return (self.voltageRequired/cell.getVoltage())
 
     def findCellsForCapacity(self,cell):
+        if(FLAGS_ENABLED == 1):
+            if(self.energyRequired <= 0):
+                print('Error -- Function findCellsForCapacity() -- member of class pack -- pack energy required must be greater than 0')
+            if(cell.getCapacity <= 0):
+                print('Error -- Funciton findCellsForCapacity() -- member of class pack -- cell capacity must be greater than 0')
+
         return (self.energyRequired/cell.getCapacity())
 
     def findCellsInParallel(self, cell):
