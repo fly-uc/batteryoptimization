@@ -2,6 +2,17 @@
 
 FLAGS_ENABLED = 1 #1 for warning messages, 0 to disable warnings
 
+#Vehicle inputs:
+motorCount = 8
+
+#Motor input:
+motorName = 'U7 V2.0 - KV 420'
+motorVoltage =  25
+motorMaxCurrent = 47.5
+
+
+#Energy input:
+
 
 class cell(object):
 
@@ -18,7 +29,7 @@ class cell(object):
     usableCapacity = -1
 
 
-    def __init__(self,cellName,ratedVoltage,capacity,peakCurrent,startingVoltage,endingVoltage,resistance,weight,remainingCapacity):
+    def __init__(self,cellName,ratedVoltage,capacity,peakCurrent,startingVoltage,endingVoltage,resistance,weight):
         self.cellName = cellName
         self.ratedPotential = ratedVoltage
         self.capacity = capacity
@@ -27,7 +38,7 @@ class cell(object):
         self.finalPotential = endingVoltage
         self.internalResistance = resistance
         self.weight = weight
-        self.remainingCapacity = remainingCapacity
+        self.remainingCapacity = capacity
 
     @classmethod
     def basicCell(self, ratedVoltage, maxAmperage):
@@ -53,6 +64,14 @@ class cell(object):
         self.remainingCapacity = -1 
         self.weight = -1
 
+    def cell_(self):
+        self.cellName = ''
+        self.initialPotential = 0
+        self.finalPotential = 0
+        self.capacity = 0
+        self.maxDischarge = 0
+        self.internalResistance = 0
+        self.weight = 0 
 
     def setCellName(self, name):
         self.cellName = name
