@@ -241,7 +241,8 @@ class pack(object):
     totalCells = 0
     weightInKilograms = 0
     currentCell = cell.emptyCell()
-    cellList = [cell('name',3.7,1000,30,3.7,2.7,1.8,2000), cell('name',3.7,1000,30,3.7,2.7,1.8,2000)] #Cell options
+    #cell(name,ratedvoltage,capacity, peakContinousCurrent,startingVoltage,endingVoltage,resistance,weight)
+    cellList = [cell('Polymer Li-Ion 1055275',3.7,18000,42,3.7,2.7,.015,406.9), cell('name',3.7,1000,30,3.7,2.7,1.8,2000)] #Cell options
     
     #Default Constructor
     def __init__(self):
