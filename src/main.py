@@ -16,7 +16,6 @@ motorMaxCurrent = 47.5
 
 energyList = [[]]
 
-
 class cell(object):
 
     #new cell
@@ -30,7 +29,6 @@ class cell(object):
     remainingCapacity = -1 
     weight = -1
     usableCapacity = -1
-
 
     def __init__(self,cellName,ratedVoltage,capacity,peakCurrent,startingVoltage,endingVoltage,resistance,weight):
         self.cellName = cellName
@@ -66,15 +64,6 @@ class cell(object):
         self.internalResistance = -1
         self.remainingCapacity = -1 
         self.weight = -1
-
-    def cell_(self):
-        self.cellName = ''
-        self.initialPotential = 0
-        self.finalPotential = 0
-        self.capacity = 0
-        self.maxDischarge = 0
-        self.internalResistance = 0
-        self.weight = 0 
 
     def setCellName(self, name):
         self.cellName = name
@@ -252,7 +241,7 @@ class pack(object):
     totalCells = 0
     weightInKilograms = 0
     currentCell = cell.emptyCell()
-    cellList = []
+    cellList = [cell('name',3.7,1000,30,3.7,2.7,1.8,2000), cell('name',3.7,1000,30,3.7,2.7,1.8,2000)] #Cell options
     
     #Default Constructor
     def __init__(self):
@@ -350,6 +339,13 @@ class pack(object):
                 #    self.energyRequired = self.energyRequired + ((row[0]*row[1])/(self.voltageRequired*1000))
 
         '''
+
+    def powerRequiredFromList(self, list):
+        totalEnergy = 0
+        for power in list:
+            totalEnergy += (power[0]*power[1])
+        self.energyRequired = totalEnergy
+        
     #Rough estimate, shouldn't use
     def findBasicPackConfig(self,cell):
         if(FLAGS_ENABLED == 1):
@@ -567,10 +563,10 @@ class vehicle(object):
             #for row in csvReader:
                 #motorList.append(motor(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
 
-
 #Main:
 myPack = pack()
 myPack.setVoltageRequired(motorVoltage)
 myPack.setPowerRequired((motorCount*motorMaxCurrent))
-myPack.defaultCellList()
+myPack.powerRequired
+myPack.optimizePack()
 
