@@ -14,7 +14,7 @@ motorMaxCurrent = 47.5
 #Energy input:
 #Format [power(Watts), duration(hours)],[power2(Watts), duration2(hours)]
 
-energyList = [[6000,.2],[8000,.3]]
+energyList = [[2000,.166],[3360,.166],[2000,.166]]
 
 class cell(object):
 
@@ -249,7 +249,8 @@ class pack(object):
     #cell(name,ratedvoltage,capacity, peakContinousCurrent,startingVoltage,endingVoltage,resistance,weight)
     cellList = [cell('Polymer Li-Ion 1055275',3.7,18000,42,3.7,2.7,.015,406.9),
      cell('Polymer Lithium-ion 9759156-10C cell',3.7,10000,100,3.7,2.75,.005,210),
-     cell('LMP063767',3.8,3400,6.8,3.8,3,.018,29)] #Cell options
+     cell('LMP063767',3.8,3400,6.8,3.8,3,.018,29),
+     cell('SLPB065070180',3.7,12000,24,3.7,2.7,.0024,1750)] #Cell options
     
     #Default Constructor
     def __init__(self):
@@ -485,9 +486,11 @@ class pack(object):
         #print (f'Pack energy(KWh):')
         print(f'Pack voltage(V): {(self.getCellsInSeries()*self.currentCell.getVoltage())}')
         print (f'Pack max continuous current(A): {(self.getCellsInParallel()*self.currentCell.getMaxDischarge())}')
+        print('--------------------------------------------------------')
         print (f'Cell name: {self.currentCell.getCellName()}')
         print(f'Cells in series: {self.cellsInSeries}')
         print(f'Cells in parallel: {self.cellsInParallel}')
+        print('--------------------------------------------------------')
         print(f'Total cells: {self.getTotalCells()}')
         print(f'Total capacity(Ah): {self.getCapacity()}')
         print(f'Weight(Kg): {self.getWeight()}')
