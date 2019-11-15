@@ -14,7 +14,7 @@ motorMaxCurrent = 47.5
 #Energy input:
 #Format [power(Watts), duration(hours)],[power2(Watts), duration2(hours)]
 
-energyList = [[]]
+energyList = [[6000,.2],[8000,.3]]
 
 class cell(object):
 
@@ -234,9 +234,9 @@ class pack(object):
 
     cellsInParallel = 0
     cellsInSeries = 0
-    energyRequired = 0
+    energyRequired = energyList
     voltageRequired = 0
-    powerRequired = energyList
+    powerRequired = 0
     additionalCapacity = 30
     totalCells = 0
     weightInKilograms = 0
