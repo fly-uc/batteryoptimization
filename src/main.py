@@ -267,14 +267,12 @@ class pack(object):
         self.energyRequired = energy
 
     #Sets voltage spec
-    def setVoltageRequired(self, voltage):
-        self.voltageRequired = voltage
+    def setVoltageRequired(self, myVoltage):
+        self.voltageRequired = myVoltage
 
     #Sets power spec
     def setPowerRequired(self,powerInKW):
-        #self.powerRequired = power
-        #self.powerRequired.append([])
-        pass
+        self.powerRequired = powerInKW
     
     #Sets capacity margin
     def setAdditionalCapacity(self, percentage):
@@ -316,7 +314,7 @@ class pack(object):
     def getWeight(self):
         if(FLAGS_ENABLED == 1):
             if(self.weightInKilograms <= 0):
-                print('Error: ')
+                print('Warning: -- Function getWeight() -- member of class pack -- weightInKilograms is less than or equal to 0')
 
         return  self.weightInKilograms
 
@@ -407,14 +405,14 @@ class pack(object):
         return (self.powerRequired/myCell.getMaxDischarge())
 
     #Gets the count of cells required for voltage
-    def findCellsForVoltage(self, cell):
+    def findCellsForVoltage(self, myCell):
         if(FLAGS_ENABLED == 1):
             if(self.voltageRequired <= 0):
                 print('Error  -- Function findCellsForVoltage() -- member of class pack  -- pack voltage required must be greater than 0')
-            if(cell.getVoltage() <= 0):
+            if(myCell.getVoltage() <= 0):
                 print('Error -- Function findCellsForVoltage() -- member of class pack -- cell voltage must be greater than 0')
         
-        return (self.voltageRequired/cell.getVoltage())
+        return (self.voltageRequired/myCell.getVoltage())
 
     def findCellsForCapacity(self,cell):
         if(FLAGS_ENABLED == 1):
@@ -425,6 +423,7 @@ class pack(object):
 
         return (self.energyRequired/cell.getCapacity())
 
+#TODO: Consistancy issue, no return while findCellsInSeries() returns int
     def findCellsInParallel(self, myCell):
         if self.findCellsForPower(myCell) > self.findCellsForCapacity(myCell):
             self.cellsInParallel = self.findCellsForPower(myCell)
@@ -476,7 +475,8 @@ class pack(object):
     def findDimensions(self,myCell):
         #this is where all calculations are done for each pack
         self.findCellsInParallel(myCell)
-        self.findCellsForVoltage(myCell)
+        self.cellsInSeries = self.findCellsForVoltage(myCell)
+        self.findTotalCells()
         additionalCapacity = self.findThermalLosses()
         additionalCellsInParallel = (((additionalCapacity / self.voltageRequired)/self.currentCell.getCapacity())/1000)
         self.cellsInParallel = self.cellsInParallel + additionalCellsInParallel
@@ -508,7 +508,7 @@ class pack(object):
                 optimalCell = self.currentCell
                 previousWeight = self.getWeight()
                 print('New optimal pack!')
-
+            print('')
         self.currentCell = optimalCell
         self.findDimensions(self.currentCell)
         print('Optimal pack:')
