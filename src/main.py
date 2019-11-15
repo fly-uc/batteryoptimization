@@ -237,7 +237,8 @@ class pack(object):
 
     cellsInParallel = 0
     cellsInSeries = 0
-    energyRequired = energyList
+    energyRequired = 0
+    packEnergyList = energyList
     voltageRequired = 0
     powerRequired = 0
     additionalCapacity = 30
@@ -329,7 +330,7 @@ class pack(object):
 
     #Gets capacity in Ah
     def getCapacity(self):
-        return ((self.cellsInParallel * self.currentCell.getCapacity)/1000)
+        return ((self.cellsInParallel * self.currentCell.getCapacity())/1000)
 
     def powerRequiredFromCSV(self,path):
         '''
@@ -347,9 +348,9 @@ class pack(object):
 
         '''
 
-    def energyRequiredFromList(self, list):
+    def energyRequiredFromList(self, myList):
         totalEnergy = 0
-        for power in list:
+        for power in myList:
             totalEnergy += (power[0]*power[1])
         self.energyRequired = totalEnergy
         
@@ -461,8 +462,8 @@ class pack(object):
         overallResistance = self.cellsInSeries * parallelResistance
         
         energyLost = 0
-        for element in self.energyRequired:
-            energyLost += ((element[0]*element[element][1])*overallResistance^2)
+        for element in self.packEnergyList:
+            energyLost += ((element[0]*element[1])*overallResistance**2)
         return energyLost
 
     def findDimensions(self,cell):
