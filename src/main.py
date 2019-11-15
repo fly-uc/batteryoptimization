@@ -448,9 +448,9 @@ class pack(object):
         self.weightInKilograms = ((self.totalCells * self.currentCell.getWeight())/1000)
 
     def findThermalLosses(self):
-        cellResistance = 1
-        parallelResistance = 1
-        overallResistance = 1
+        cellResistance = 0
+        parallelResistance = 0
+        overallResistance = 0
         
         if(FLAGS_ENABLED == 1):
             if(self.currentCell.getInternalResistance() < 0):
@@ -461,9 +461,8 @@ class pack(object):
                 print('Error -- Function findThermalLosses() -- member of class pack -- cells in parallel must be greater than 0')
             else:
                 parallelResistance = 1/(self.cellsInParallel*(1/cellResistance))
-            if(self.cellsInSeries):
-                print('Error -- Function findThermalLosses() -- member of class pack -- cells in series must be graeater than 0')
-
+            if(self.cellsInSeries <= 0):
+                print('Error -- Function findThermalLosses() -- member of class pack -- cells in series must be greater than 0')
         
         overallResistance = self.cellsInSeries * parallelResistance
         
@@ -477,6 +476,7 @@ class pack(object):
         self.findCellsInParallel(myCell)
         self.cellsInSeries = self.findCellsForVoltage(myCell)
         self.findTotalCells()
+        self.findWeight()
         additionalCapacity = self.findThermalLosses()
         additionalCellsInParallel = (((additionalCapacity / self.voltageRequired)/self.currentCell.getCapacity())/1000)
         self.cellsInParallel = self.cellsInParallel + additionalCellsInParallel
@@ -497,7 +497,7 @@ class pack(object):
     def optimizePack(self):
         #Optimize pack for weight
         optimalCell = cell('empty',-1,-1,-1,-1,-1,-1,200000)
-        previousWeight = 0
+        previousWeight = 200000
         self.setWeightInKilograms(0)
 
         for potentialCell in self.cellList:
