@@ -250,7 +250,9 @@ class pack(object):
     cellList = [cell('Polymer Li-Ion 1055275',3.7,18000,42,3.7,2.7,.015,406.9),
      cell('Polymer Lithium-ion 9759156-10C cell',3.7,10000,100,3.7,2.75,.005,210),
      cell('LMP063767',3.8,3400,6.8,3.8,3,.018,29),
-     cell('SLPB065070180',3.7,12000,24,3.7,2.7,.0024,1750)] #Cell options
+     cell('SLPB065070180',3.7,12000,24,3.7,2.7,.0024,1750),
+     cell('Licerion[experemental]',5,20000,60,5,4,.018, 154),
+     cell('UHP341440 NCA', 3.6,7500,150,3.6,2.7,.0065,320)] #Cell options Licerion cell is experemental
     
     #Default Constructor
     def __init__(self):
