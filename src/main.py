@@ -100,7 +100,10 @@ class cell(object):
    
     def getFinalPotential(self):
         return self.finalPotential
-   
+
+    def getVoltage(self):
+        return self.ratedPotential
+
     def getMaxDischarge(self):
         return self.maxDischarge
 
@@ -268,7 +271,8 @@ class pack(object):
     #Sets power spec
     def setPowerRequired(self,powerInKW):
         #self.powerRequired = power
-        self.powerRequired.append([])
+        #self.powerRequired.append([])
+        pass
     
     #Sets capacity margin
     def setAdditionalCapacity(self, percentage):
@@ -445,7 +449,7 @@ class pack(object):
     def findThermalLosses(self):
         
         if(FLAGS_ENABLED == 1):
-            if(self.currentCell.getInternalResistance < 0):
+            if(self.currentCell.getInternalResistance() < 0):
                 print('Error -- Function findThermalLosses() -- member of class pack -- cell internal resistance unassigned')
             if(self.cellsInParallel <= 0):
                 print('Error -- Function findThermalLosses() -- member of class pack -- cells in parallel must be greater than 0')
@@ -453,12 +457,12 @@ class pack(object):
                 print('Error -- Function findThermalLosses() -- member of class pack -- cells in series must be graeater than 0')
 
         cellResistance = self.currentCell.getInternalResistance()
-        parallelResistance = (self.cellsInParallel*(1/cellResistance))^-1
+        parallelResistance = 1/(self.cellsInParallel*(1/cellResistance))
         overallResistance = self.cellsInSeries * parallelResistance
         
-        energyLost = 0.0
+        energyLost = 0
         for element in self.energyRequired:
-            energyLost += ((self.energyRequired[element][0]*self.energyRequired[element][1])*overallResistance^2)
+            energyLost += ((element[0]*element[element][1])*overallResistance^2)
         return energyLost
 
     def findDimensions(self,cell):
