@@ -12,6 +12,9 @@ motorMaxCurrent = 47.5
 
 
 #Energy input:
+#Format [power(Watts), duration(hours)],[power2(Watts), duration2(hours)]
+
+energyList = [[]]
 
 
 class cell(object):
@@ -244,7 +247,7 @@ class pack(object):
     cellsInSeries = 0
     energyRequired = 0
     voltageRequired = 0
-    powerRequired = [[]]
+    powerRequired = energyList
     additionalCapacity = 30
     totalCells = 0
     weightInKilograms = 0
@@ -566,6 +569,8 @@ class vehicle(object):
 
 
 #Main:
-
-
+myPack = pack()
+myPack.setVoltageRequired(motorVoltage)
+myPack.setPowerRequired((motorCount*motorMaxCurrent))
+myPack.defaultCellList()
 
