@@ -343,7 +343,7 @@ class pack(object):
 
         '''
 
-    def powerRequiredFromList(self, list):
+    def energyRequiredFromList(self, list):
         totalEnergy = 0
         for power in list:
             totalEnergy += (power[0]*power[1])
@@ -570,6 +570,6 @@ class vehicle(object):
 myPack = pack()
 myPack.setVoltageRequired(motorVoltage)
 myPack.setPowerRequired((motorCount*motorMaxCurrent))
-myPack.powerRequired
+myPack.energyRequiredFromList(energyList)
 myPack.optimizePack()
 
