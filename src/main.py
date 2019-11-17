@@ -210,6 +210,9 @@ class motor(object):
         return self.motorType
 
     def getMaxContinuousCurrent(self):
+        if(FLAGS_ENABLED ==1):
+            if(self.maxContinuousCurrent <= 0):
+                print('Error -- Function: getMaxContinuousCurrent() -- member of class cell -- maxContinuousCurrent must be greater than  0')
         return self.maxContinuousCurrent
     
     def getVoltage(self):
