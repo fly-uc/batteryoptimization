@@ -117,7 +117,7 @@ class cell(object):
     def findEnergyDensity(self):
         if(FLAGS_ENABLED == 1):
             if(self.capacity <= 0):
-                print ('')
+                print ('Warning -- Function findEnergyDensity() -- member of class cell -- Capacity must be greater than 0')
 
         energyDensity = self.capacity/self.weight
         return energyDensity
@@ -497,7 +497,6 @@ class pack(object):
         print(f'Total capacity(Ah): {self.getCapacity()}')
         print(f'Weight(Kg): {self.getWeight()}')
         print(f'Thermal loss(Wh): {self.findThermalLosses()}')
-
 
     def optimizePack(self):
         #Optimize pack for weight
