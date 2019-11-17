@@ -1,6 +1,7 @@
 
 
 FLAGS_ENABLED = 1 #1 for warning messages, 0 to disable warnings
+DISPLAY_OPTIMAL_ONLY = 1 # 1 for displaying optimal cell only
 
 #Vehicle inputs:
 motorCount = 8
@@ -507,12 +508,14 @@ class pack(object):
         for potentialCell in self.cellList:
             self.currentCell = potentialCell
             self.findDimensions(self.currentCell)
-            self.printPack()
+            if(DISPLAY_OPTIMAL_ONLY == 0):
+                self.printPack()
             if self.getWeight() < previousWeight:
                 optimalCell = self.currentCell
                 previousWeight = self.getWeight()
-                print('New optimal pack!')
-            print('')
+                if(DISPLAY_OPTIMAL_ONLY == 0):
+                    print('New optimal pack!')
+                    print('')
         self.currentCell = optimalCell
         self.findDimensions(self.currentCell)
         print('Optimal pack:')
