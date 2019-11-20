@@ -301,12 +301,21 @@ class pack(object):
         self.cellList.append(newCell)
 
     def getEnergyRequired(self):
+        if(FLAGS_ENABLED ==  1):
+            if(self.energyRequired <= 0):
+                print('Warning: Function getEnergyRequired() -- member of class pack -- enerrgyRequried should be greater than 0')
         return self.energyRequired
 
     def getVoltageRequired(self):
+        if(FLAGS_ENABLED == 1):
+            if(self.voltageRequired <= 0):
+                print('Warning: Function getVoltageRequired() -- member of class pack -- voltageRequired should be greater than 0')
         return self.voltageRequired
     
     def getPowerRequired(self):
+        if(FLAGS_ENABLED == 1):
+            if(self.getPowerRequired <= 0):
+                print('Warning: Function getPowerRequired() -- member of class pack -- power requried should be greater than 0')
         return self.powerRequired
 
     def getAdditionalCapacity(self):
