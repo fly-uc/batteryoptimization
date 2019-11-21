@@ -1,15 +1,17 @@
 
+import math
 
 FLAGS_ENABLED = 1 #1 for warning messages, 0 to disable warnings
-DISPLAY_OPTIMAL_ONLY = 1 # 1 for displaying optimal cell only
+DISPLAY_OPTIMAL_ONLY = 0 # 1 for displaying optimal cell only
 
 #Vehicle inputs:
-motorCount = 8
+motorCount = 4
 
 #Motor input:
 motorName = 'U7 V2.0 - KV 420'
 motorVoltage =  25
 motorMaxCurrent = 47.5
+
 
 
 #Energy input:
@@ -255,7 +257,7 @@ class pack(object):
      cell('Polymer Lithium-ion 9759156-10C cell',3.7,10000,100,3.7,2.75,.005,210),
      cell('LMP063767',3.8,3400,6.8,3.8,3,.018,29),
      cell('SLPB065070180',3.7,12000,24,3.7,2.7,.0024,1750),
-     cell('Licerion[experemental]',5,20000,60,5,4,.018, 154),
+     #cell('Licerion[experemental]',5,20000,60,5,4,.018, 154),
      cell('UHP341440 NCA', 3.6,7500,150,3.6,2.7,.0065,320)] #Cell options Licerion cell is experemental
     
     #Default Constructor
@@ -418,8 +420,7 @@ class pack(object):
             if(myCell.getMaxDischarge() <= 0):
                 print('Error -- Function findCellsForPower() -- member of cell pack -- cell max current dischange should be greater than 0')
 
-        return (self.powerRequired/myCell.getMaxDischarge())
-
+        return math.ceil((self.powerRequired/myCell.getMaxDischarge()))
     #Gets the count of cells required for voltage
     def findCellsForVoltage(self, myCell):
         if(FLAGS_ENABLED == 1):
@@ -428,7 +429,7 @@ class pack(object):
             if(myCell.getVoltage() <= 0):
                 print('Error -- Function findCellsForVoltage() -- member of class pack -- cell voltage must be greater than 0')
         
-        return (self.voltageRequired/myCell.getVoltage())
+        return math.ceil((self.voltageRequired/myCell.getVoltage()))
 
     def findCellsForCapacity(self,cell):
         if(FLAGS_ENABLED == 1):
@@ -499,17 +500,17 @@ class pack(object):
 
     def printPack(self):
         #print (f'Pack energy(KWh):')
+        print('')
         print(f'Pack voltage(V): {(self.getCellsInSeries()*self.currentCell.getVoltage())}')
         print (f'Pack max continuous current(A): {(self.getCellsInParallel()*self.currentCell.getMaxDischarge())}')
-        print('--------------------------------------------------------')
         print (f'Cell name: {self.currentCell.getCellName()}')
         print(f'Cells in series: {self.cellsInSeries}')
         print(f'Cells in parallel: {self.cellsInParallel}')
-        print('--------------------------------------------------------')
         print(f'Total cells: {self.getTotalCells()}')
         print(f'Total capacity(Ah): {self.getCapacity()}')
         print(f'Weight(Kg): {self.getWeight()}')
         print(f'Thermal loss(Wh): {self.findThermalLosses()}')
+        print ('_______________________________________________________________')
 
     def optimizePack(self):
         #Optimize pack for weight
@@ -520,14 +521,13 @@ class pack(object):
         for potentialCell in self.cellList:
             self.currentCell = potentialCell
             self.findDimensions(self.currentCell)
-            if(DISPLAY_OPTIMAL_ONLY == 0):
-                self.printPack()
             if self.getWeight() < previousWeight:
                 optimalCell = self.currentCell
                 previousWeight = self.getWeight()
                 if(DISPLAY_OPTIMAL_ONLY == 0):
                     print('New optimal pack!')
-                    print('')
+            if(DISPLAY_OPTIMAL_ONLY == 0):
+                self.printPack()
         self.currentCell = optimalCell
         self.findDimensions(self.currentCell)
         print('Optimal pack:')
@@ -602,5 +602,6 @@ myPack = pack()
 myPack.setVoltageRequired(motorVoltage)
 myPack.setPowerRequired((motorCount*motorMaxCurrent))
 myPack.energyRequiredFromList(energyList)
+print ('_______________________________________________________________')
 myPack.optimizePack()
 
