@@ -5,14 +5,12 @@ FLAGS_ENABLED = 1 #1 for warning messages, 0 to disable warnings
 DISPLAY_OPTIMAL_ONLY = 0 # 1 for displaying optimal cell only
 
 #Vehicle inputs:
-motorCount = 4
+motorCount = 8
 
 #Motor input:
 motorName = 'U7 V2.0 - KV 420'
 motorVoltage =  25
 motorMaxCurrent = 47.5
-
-
 
 #Energy input:
 #Format [power(Watts), duration(hours)],[power2(Watts), duration2(hours)]
@@ -257,8 +255,9 @@ class pack(object):
      cell('Polymer Lithium-ion 9759156-10C cell',3.7,10000,100,3.7,2.75,.005,210),
      cell('LMP063767',3.8,3400,6.8,3.8,3,.018,29),
      cell('SLPB065070180',3.7,12000,24,3.7,2.7,.0024,1750),
-     #cell('Licerion[experemental]',5,20000,60,5,4,.018, 154),
-     cell('UHP341440 NCA', 3.6,7500,150,3.6,2.7,.0065,320)] #Cell options Licerion cell is experemental
+     cell('Licerion[experemental]',5,20000,60,5,4,.018, 154),
+     cell('UHP341440 NCA', 3.6,7500,150,3.6,2.7,.0065,320),
+     cell('553562-10C',3.7,1050,10,3.7,2.7,.04,18)] #Cell options Licerion cell is experemental
     
     #Default Constructor
     def __init__(self):
@@ -438,7 +437,7 @@ class pack(object):
             if(cell.getCapacity() <= 0):
                 print('Error -- Funciton findCellsForCapacity() -- member of class pack -- cell capacity must be greater than 0')
 
-        return (self.energyRequired/cell.getCapacity())
+        return math.ceil((self.energyRequired/cell.getCapacity()))
 
 #TODO: Consistancy issue, no return while findCellsInSeries() returns int
     def findCellsInParallel(self, myCell):
@@ -589,13 +588,14 @@ class vehicle(object):
                 print ('Warning: Battery pack weight is invalid')
 
         self.totalWeight = self.structuralMass + self.payloadMass + self.batteryPack.getWeight()
-
-    #def openMotorList(self,path, motorList):
-        #with open(path) as csvFile:
-            #csvReader = csv.reader(csvFile, delimiter=';')
-            #lineCount = 0
-            #for row in csvReader:
-                #motorList.append(motor(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
+    '''
+    def openMotorList(self,path, motorList):
+        with open(path) as csvFile:
+            csvReader = csv.reader(csvFile, delimiter=';')
+            lineCount = 0
+            for row in csvReader:
+                motorList.append(motor(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]))
+    '''
 
 #Main:
 myPack = pack()
