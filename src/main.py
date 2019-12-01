@@ -88,7 +88,7 @@ class cell(object):
    
     def setInternalResistance(self,ohms):
         self.internalResistance = ohms
-         
+        
     def setWeight(self, grams):
         self.weight = grams
 
@@ -347,6 +347,11 @@ class pack(object):
 
     #Gets capacity in Ah
     def getCapacity(self):
+        if(FLAGS_ENABLED == 1):
+            if(self.cellsInParallel <= 0):
+                print('Error -- Function: getCapacity() --  member of class pack -- cells in parallel should be greater than 0')
+            if(self.currentCell.getCapacity() <= 0):
+                print('Error -- Function: getCapacity() -- member of class pack -- cell capacity should be greagter than 0')
         return ((self.cellsInParallel * self.currentCell.getCapacity())/1000)
 
     def powerRequiredFromCSV(self,path):
@@ -366,6 +371,10 @@ class pack(object):
         '''
 
     def energyRequiredFromList(self, myList):
+        if(FLAGS_ENABLED == 1):
+            if(len(myList) == 0):
+                print('Error -- Function: energyRequiredFromList() --  member of class pack -- No elements in list')
+ 
         totalEnergy = 0
         for power in myList:
             totalEnergy += (power[0]*power[1])
@@ -487,7 +496,7 @@ class pack(object):
         for element in self.packEnergyList:
             energyLost += ((element[0]*element[1])*overallResistance**2)
         return energyLost
-
+    
     def findDimensions(self,myCell):
         #this is where all calculations are done for each pack
         self.findCellsInParallel(myCell)
@@ -532,6 +541,13 @@ class pack(object):
         self.findDimensions(self.currentCell)
         print('Optimal pack:')
         self.printPack()
+
+    def findFeasiblePacks(self):
+        #Needs to find cost
+        print('Function is incomplete')
+
+    def sortCellsByCost(self):
+        print('Function is incomplete')
 
 class vehicle(object):
     motorCount = -1
