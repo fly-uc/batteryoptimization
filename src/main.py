@@ -343,6 +343,7 @@ class pack(object):
         return self.cellsInSeries
 
     def getCellsInParallel(self):
+
         return self.cellsInParallel
 
     #Gets capacity in Ah
@@ -449,7 +450,7 @@ class pack(object):
 
         return math.ceil((self.energyRequired/cell.getCapacity()))
 
-#TODO: Consistancy issue, no return while findCellsInSeries() returns int
+#TODO: Consistancy issue, no return while findCellsInSeries() returns int 
     def findCellsInParallel(self, myCell):
         if self.findCellsForPower(myCell) > self.findCellsForCapacity(myCell):
             self.cellsInParallel = self.findCellsForPower(myCell)
@@ -461,8 +462,8 @@ class pack(object):
         if(FLAGS_ENABLED == 1):
             if(self.cellsInParallel <= 0):
                 print('Error -- Function findTotalCells() -- member of class pack -- cells in parallel must be greater than 0')
-            if(self.cellsInSeries <= 0):
-                print('Error -- Function findTotalCells() -- member of class pack -- cells in series must be greater than 0')
+            if(self.cellsInSeries <= 0): 
+                pack -- cells in series must be greater than 0')
         self.totalCells = self.cellsInParallel * self.cellsInSeries
 
     def findWeight(self):
@@ -496,7 +497,7 @@ class pack(object):
         for element in self.packEnergyList:
             energyLost += ((element[0]*element[1])*overallResistance**2)
         return energyLost
-    
+     
     def findDimensions(self,myCell):
         #this is where all calculations are done for each pack
         self.findCellsInParallel(myCell)
@@ -566,7 +567,6 @@ class vehicle(object):
 
     def setMotorCount(self, numberOfMotors):
         self.motorCount = numberOfMotors
-
     def setMotor(self,motor):
         self.currentMotor = motor
 
