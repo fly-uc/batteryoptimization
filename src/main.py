@@ -7,7 +7,7 @@ DISPLAY_OPTIMAL_ONLY = 0 # 1 for displaying optimal cell only
 #Vehicle inputs:
 motorCount = 8
 #Replit test
-
+#example
 #Motor input:
 motorName = 'U7 V2.0 - KV 420'
 motorVoltage =  25
@@ -463,7 +463,7 @@ class pack(object):
             if(self.cellsInParallel <= 0):
                 print('Error -- Function findTotalCells() -- member of class pack -- cells in parallel must be greater than 0')
             if(self.cellsInSeries <= 0): 
-                pack -- cells in series must be greater than 0')
+                print('pack -- cells in series must be greater than 0')
         self.totalCells = self.cellsInParallel * self.cellsInSeries
 
     def findWeight(self):
