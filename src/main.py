@@ -16,7 +16,7 @@ motorMaxCurrent = 47.5
 #Energy input:
 #Format [power(Watts), duration(hours)],[power2(Watts), duration2(hours)]
 
-energyList = [[2000,.166],[3360,.166],[2000,.166]]
+energyList = [[47000,.166],[20000,.166],[10000,.166]]
 
 class cell(object):
 
@@ -255,10 +255,15 @@ class pack(object):
     cellList = [cell('Polymer Li-Ion 1055275',3.7,18000,42,3.7,2.7,.015,406.9),
      cell('Polymer Lithium-ion 9759156-10C cell',3.7,10000,100,3.7,2.75,.005,210),
      cell('LMP063767',3.8,3400,6.8,3.8,3,.018,29),
-     cell('SLPB065070180',3.7,12000,24,3.7,2.7,.0024,1750),
-     cell('Licerion[experemental]',5,20000,60,5,4,.018, 154),
-     cell('UHP341440 NCA', 3.6,7500,150,3.6,2.7,.0065,320),
-     cell('553562-10C',3.7,1050,10,3.7,2.7,.04,18)] #Cell options Licerion cell is experemental
+     cell('SLPB065070180',3.7,12000,24,3.7,2.7,.00204,1750),
+     cell('Licerion[experemental]',5,20000,60,5,4,.0018, 154),
+     cell('UHP341440 NCA', 3.6,7500,150,3.6,2.7,.00065,320),
+     #cell('553562-10C',3.7,1050,10,3.7,2.7,.04,18)
+     cell('Venom Industrial LCO 22Ah',3.7,22000,330,3.7,3,.0002,415),
+     cell('Venom Industrial LCO 16Ah',3.7,16000,240,3.7,3,.0002,300),
+     cell('Venom Industrial LC0 13 Ah',3.7,13000,195,3.7,3,.0002,248),
+     cell('Venom Industrial LCO 8 Ah', 3.7, 8000, 120, 3.7, 3, .0002, 167),
+     cell('Venom Industrial LCO 37 Ah', 3.65, 37000, 120, 3.7, 3, .0003, 863)] #Cell options Licerion cell is experemental
     
     #Default Constructor
     def __init__(self):
@@ -450,6 +455,9 @@ class pack(object):
 
         return math.ceil((self.energyRequired/cell.getCapacity()))
 
+    def findAdditionalCellsForCapacity(self, cell, capacity):
+        return math.ceil((capacity/cell.getCapacity()))
+
 #TODO: Consistancy issue, no return while findCellsInSeries() returns int 
     def findCellsInParallel(self, myCell):
         if self.findCellsForPower(myCell) > self.findCellsForCapacity(myCell):
@@ -495,7 +503,7 @@ class pack(object):
         
         energyLost = 0
         for element in self.packEnergyList:
-            energyLost += ((element[0]*element[1])*overallResistance**2)
+            energyLost += ((element[0]**2)*overallResistance*element[1]) 
         return energyLost
      
     def findDimensions(self,myCell):
@@ -503,10 +511,15 @@ class pack(object):
         self.findCellsInParallel(myCell)
         self.cellsInSeries = self.findCellsForVoltage(myCell)
         self.findTotalCells()
-        self.findWeight()
         additionalCapacity = self.findThermalLosses()
-        additionalCellsInParallel = (((additionalCapacity / self.voltageRequired)/self.currentCell.getCapacity())/1000)
+        additionalAmpHours = additionalCapacity/(self.currentCell.getVoltage()*self.cellsInSeries)
+        additionalCellsInParallel = self.findAdditionalCellsForCapacity(self.currentCell,additionalAmpHours)
         self.cellsInParallel = self.cellsInParallel + additionalCellsInParallel
+        self.findTotalCells()
+        self.findWeight()
+
+    def convertToCelsiusHeatUnits(self, wattHours):
+        return (wattHours*1.895634)
 
     def printPack(self):
         #print (f'Pack energy(KWh):')
@@ -519,7 +532,9 @@ class pack(object):
         print(f'Total cells: {self.getTotalCells()}')
         print(f'Total capacity(Ah): {self.getCapacity()}')
         print(f'Weight(Kg): {self.getWeight()}')
-        print(f'Thermal loss(Wh): {self.findThermalLosses()}')
+        thermalLoss = self.findThermalLosses()
+        print(f'Thermal loss(Wh): {thermalLoss}')
+        print(f'Thermal loss(Celsius - CHU): {self.convertToCelsiusHeatUnits(thermalLoss)}')
         print ('_______________________________________________________________')
 
     def optimizePack(self):
