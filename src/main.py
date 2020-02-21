@@ -16,7 +16,7 @@ motorMaxCurrent = 47.5
 #Energy input:
 #Format [power(Watts), duration(hours)],[power2(Watts), duration2(hours)]
 
-energyList = [[47000,.166],[20000,.166],[10000,.166]]
+energyList = [[37600,.166],[125333,.166],[90000,.166]]
 
 class cell(object):
 
@@ -256,7 +256,7 @@ class pack(object):
      cell('Polymer Lithium-ion 9759156-10C cell',3.7,10000,100,3.7,2.75,.005,210),
      cell('LMP063767',3.8,3400,6.8,3.8,3,.018,29),
      cell('SLPB065070180',3.7,12000,24,3.7,2.7,.00204,1750),
-     cell('Licerion[experemental]',5,20000,60,5,4,.0018, 154),
+     #cell('Licerion[experemental]',5,20000,60,5,4,.0018, 154),
      cell('UHP341440 NCA', 3.6,7500,150,3.6,2.7,.00065,320),
      #cell('553562-10C',3.7,1050,10,3.7,2.7,.04,18)
      cell('Venom Industrial LCO 22Ah',3.7,22000,330,3.7,3,.0002,415),
@@ -503,7 +503,8 @@ class pack(object):
         
         energyLost = 0
         for element in self.packEnergyList:
-            energyLost += ((element[0]**2)*overallResistance*element[1]) 
+            amps = element[0]/(self.cellsInSeries*self.currentCell.getVoltage())
+            energyLost += ((amps**2)*overallResistance*element[1]) 
         return energyLost
      
     def findDimensions(self,myCell):
@@ -511,15 +512,15 @@ class pack(object):
         self.findCellsInParallel(myCell)
         self.cellsInSeries = self.findCellsForVoltage(myCell)
         self.findTotalCells()
-        additionalCapacity = self.findThermalLosses()
+        additionalCapacity = self.findThermalLosses() #TODO: Technically additional energy
         additionalAmpHours = additionalCapacity/(self.currentCell.getVoltage()*self.cellsInSeries)
         additionalCellsInParallel = self.findAdditionalCellsForCapacity(self.currentCell,additionalAmpHours)
         self.cellsInParallel = self.cellsInParallel + additionalCellsInParallel
         self.findTotalCells()
         self.findWeight()
 
-    def convertToCelsiusHeatUnits(self, wattHours):
-        return (wattHours*1.895634)
+    def convertToBTU(self, wattHours):
+        return (wattHours*3.412)
 
     def printPack(self):
         #print (f'Pack energy(KWh):')
@@ -534,7 +535,7 @@ class pack(object):
         print(f'Weight(Kg): {self.getWeight()}')
         thermalLoss = self.findThermalLosses()
         print(f'Thermal loss(Wh): {thermalLoss}')
-        print(f'Thermal loss(Celsius - CHU): {self.convertToCelsiusHeatUnits(thermalLoss)}')
+        print(f'Thermal loss(BTU): {self.convertToBTU(thermalLoss)}')
         print ('_______________________________________________________________')
 
     def optimizePack(self):
