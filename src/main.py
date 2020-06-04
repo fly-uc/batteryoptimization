@@ -5,7 +5,7 @@ FLAGS_ENABLED = 1 #1 for warning messages, 0 to disable warnings
 DISPLAY_OPTIMAL_ONLY = 0 # 1 for displaying optimal cell only
 
 #Vehicle inputs:
-motorCount = 8
+motorCount = 4
 #Replit test
 #example
 #Motor input:
@@ -16,7 +16,7 @@ motorMaxCurrent = 47.5
 #Energy input:
 #Format [power(Watts), duration(hours)],[power2(Watts), duration2(hours)]
 
-energyList = [[37600,.166],[125333,.166],[90000,.166]]
+energyList = [[8650,.00833],[5970,.5], [7040, .5], [3830,.00833]]
 
 class cell(object):
 
@@ -263,7 +263,13 @@ class pack(object):
      cell('Venom Industrial LCO 16Ah',3.7,16000,240,3.7,3,.0002,300),
      cell('Venom Industrial LC0 13 Ah',3.7,13000,195,3.7,3,.0002,248),
      cell('Venom Industrial LCO 8 Ah', 3.7, 8000, 120, 3.7, 3, .0002, 167),
-     cell('Venom Industrial LCO 37 Ah', 3.65, 37000, 120, 3.7, 3, .0003, 863)] #Cell options Licerion cell is experemental
+     cell('Venom Industrial LCO 37 Ah', 3.65, 37000, 120, 3.7, 3, .0003, 863),
+     cell('SLPB98188216P', 3.7, 30000, 600, 3.7, 3, .0007, 780),
+     cell('SLPB60216216', 3.7, 25000, 200, 3.7, 3, .0012, 555),
+     cell('SLPB065070180', 3.7, 11600, 23.2, 3.7, 3, .0028, 175),
+     cell('SLC-202', 3.7, 1750, 3.5, 3.7, 3, .001, 29)]
+     #cell('553562-10C', 3.7, 1050, 10.5 ,3.7, 3, .001, 18),
+     #cell('703562-10C', 3.7, 1150, 14, 3.7, 3, .001, 28)] #Cell options Licerion cell is experemental
     
     #Default Constructor
     def __init__(self):
@@ -434,8 +440,16 @@ class pack(object):
                 print('Error -- Function findCellsForPower() -- member of class pack -- pack power required should be greater than 0')
             if(myCell.getMaxDischarge() <= 0):
                 print('Error -- Function findCellsForPower() -- member of cell pack -- cell max current dischange should be greater than 0')
+            
+            maxFlightCurrent = 0
+            bustCurrent = self.powerRequired
 
-        return math.ceil((self.powerRequired/myCell.getMaxDischarge()))
+            for element in self.packEnergyList:
+                temp = element[0]/(self.cellsInSeries*self.currentCell.getVoltage())
+                if(temp > maxFlightCurrent):
+                    maxFlightCurrent = temp #safety factor
+
+        return math.ceil((maxFlightCurrent/myCell.getMaxDischarge()))
     #Gets the count of cells required for voltage
     def findCellsForVoltage(self, myCell):
         if(FLAGS_ENABLED == 1):
@@ -509,8 +523,8 @@ class pack(object):
      
     def findDimensions(self,myCell):
         #this is where all calculations are done for each pack
-        self.findCellsInParallel(myCell)
         self.cellsInSeries = self.findCellsForVoltage(myCell)
+        self.findCellsInParallel(myCell)
         self.findTotalCells()
         additionalCapacity = self.findThermalLosses() #TODO: Technically additional energy
         additionalAmpHours = additionalCapacity/(self.currentCell.getVoltage()*self.cellsInSeries)
