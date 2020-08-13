@@ -3,6 +3,7 @@
 import src.cell
 import src.motor
 import src.pack
+import src.vehicle
 
 #Vehicle inputs:
 motorCount = 4
